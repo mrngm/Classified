@@ -1,0 +1,94 @@
+Notities
+------------------
+_________________________
+Vorige week
+_________________________
+Github aanmaken
+
+Stavaza
+-----------------------
+Algemeen
+-Coach aangewezen, donderdag
+-PvA maken
+
+Jordi
+-Verschillende merge files
+-Devices zonder eigenschappen, eigenaars en merk. Maar die wel meedoen met events
+-
+
+Jeffrey
+-
+-
+-
+
+Roel
+-
+-
+-
+
+--------------------
+Taakverdeling
+--------------------
+Opzetten Github
+- Github uitbreiding (Jeffrey)
+
+Machine Learning
+_______________________________________________
+Pre-processing  			(Jordi)
+Data Fusion
+Data Structure		
+
+Prediction|Classification|Regression	(Gerdriaan (C), Roel(R))
+- Random Forest
+- SVM
+- Suggesties
+- Neural Networks
+- Deep Neural Networks
+- Mondrian Random Forest
+
+Cross-Validation Structure		(Week 3, overleggen met coach?)
+Voorspelling oefeningen
+- Geslacht
+- Leeftijd
+- Geslacht in combinatie met leeftijd
+- Andere simpele voorspellingsoefeningen
+
+Geolocation			(Jeffrey)
+- Interesting location
+- From global to specific
+	- Prominente locaties
+- Verdeling qua informatie, gender, andere relevante informatie
+- Variatie binnen in de geolocatie van een individu, hoe veel iemand reist
+	- Reisgedrag en app activiteit gedrag
+	- Relatieve snelheid?
+
+Device/Model			(...)
+- Merk, wat levert het op?
+	- Model en merk
+	- Alleen het model
+	- Alleen het merk
+
+App activiteit en gedrag	(...)
+- Algemene informatie
+- Verdeling qua geslacht
+- Hoe vaak wordt het gebruikt over de dag, week, maand en jaar
+
+!!!PvA maken voor de coach!!!
+- Dataset
+- Aanpak
+- Doel
+- Stappen
+
+Deeplearning Onderzoek 		(Thijs/Gerdriaan)
+- Testen
+- Proberen
+
+--------------------
+Rolverdeling
+--------------------
+Jordi 	- 	Coordinator|Communicator
+Roel	-	Team Leider
+
+
+
+
