@@ -1,0 +1,31 @@
+Notities
+------------------
+
+-----------------------
+Algemeen
+- Introductie coach
+- Huidige stavaza
+
+Features om naar te kijken
+Informatie, how and where
+Offline testing
+Features selecteren en kiezen
+Verschillende machine learning algorithmes gaan uit testen
+!!!!!Pipeline opzetten!!!!!!
+Eerste de algorithmes testen, daarna classification en regression
+
+Vragen eerst in de groep bespreken, daarna met Gido
+
+Globale deadlines met Gido
+- Februari, orientatie en preprocessing regelen
+- Maart, algorithmes testen en uiteindelijke methodes selecteren
+- April, verslag uitschrijven
+
+Coach
+------------------
+Organisatorische/Ondersteuning
+
+--------------------
+Rolverdeling
+--------------------
+Jordi 	- 	Coordinator|Communicator|Leader
