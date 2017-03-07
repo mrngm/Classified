@@ -1,0 +1,74 @@
+Notities
+------------------
+
+-----------------------
+Algemeen
+- Huidige stavaza
+
+Preprocessing afgerond (MUV Timestamp splitsing en device model)
+Handmatige feature selection (Universal naar verschillende datasets voor specifieke problemen)
+Test Pipeline ??
+Methodes selecteren
+Voorbeeld DeepLearning Thijs??
+
+Gender classification kleine algorithmes
+- LogisticRegression
+- LinearDiscriminatAnalysis
+- KneighborsClassifier
+- Decision Tree Classifier
+- GaussianNB
+- SVC
+- Bagging, GradientBoosting
+- RandomForest, ExtraTrees
+Co-Linearity .._id values
+
+Globale deadlines met Gido
+- Februari, orientatie en preprocessing regelen
+- Maart, algorithmes testen en uiteindelijke methodes selecteren
+- April, verslag uitschrijven
+
+Deadline 14 Maart
+- Pre-processing rond(Timestamps en device model)
+- Pipeline werkend
+- Methodes selecteren
+- Opzet presentatie(Flashtalks)
+- Eerste resultaten
+- Eerste inlevering Kaggle (Ideale situatie)
+
+14 Maart - 13:30 Volgende bespreking
+
+Missing Data???
+155 Features, label vectors binary
+Preprocessing
+- Average travel distance
+- Activiteit applicatie
+- Merk en Model
+- Weighted category applicaties(Welke applicatie weegt het zwaarst ivm met dezelfde applicaties)
+- Hoeveelheid aplicaties
+- Basic statistics
+- Verwijderen lagere hoeveelheid aan data (verminderen features)
+
+Elena Presentatie Mail - Jeffrey
+
+Coach
+------------------
+Organisatorische/Ondersteuning
+
+--------------------
+Rolverdeling
+--------------------
+Jordi 	- 	Coordinator|Communicator|Leader
+
+-------------------
+Taakverdeling
+------------------
+Jordi - Controle datasets, missing, noise, verwijderen redundantie, feature selection
+Roel - Pipeline afronden
+Jeffrey - Roel ondersteuning, kijken naar nieuwe methodes, begin documentatie (Wat moet er zeker in het verslag), presentatie opzetten
+Gerdriaan - Controle datasets, versiebeheer, feature selection
+Thijs - ????
+-------------------
+Contacteren
+-------------------
+Jacopo Acquirelli = Deep Learning
+Gido Schoenmacker = Overall methode
