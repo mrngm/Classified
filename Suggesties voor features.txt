@@ -3,3 +3,4 @@ Device brand/model
 App_label_id (AND with event_app_installed) (make a list of all common apps and one hot encode them)
 weighted app category
 (region based on location)
+time usage histogram
