@@ -23,13 +23,16 @@ def _parse_date(date_str, format_str):
     time_dt = dt.datetime.strptime(date_str, format_str)
     return [time_dt.year, time_dt.month, time_dt.day, time_dt.weekday, time_dt.time()]
 
+#CSV_PATH_PREFIX = 'D:/School/School/Master/Jaar_1/Machine Learning in Practice/Competition/Data/Mobile Data/'
+CSV_PATH_PREFIX = 'MLiP/'
+CSV_SRC_PREFIX = 'unzipped/'
 
-gender_train = pd.read_csv('D:\School\School\Master\Jaar_1\Machine Learning in Practice\Competition\Data\Mobile Data\gender_age_train.csv')
-app_events = pd.read_csv('D:/School/School/Master/Jaar_1/Machine Learning in Practice/Competition/Data/Mobile Data/app_events.csv')
-events = pd.read_csv('D:/School/School/Master/Jaar_1/Machine Learning in Practice/Competition/Data/Mobile Data/events.csv')
-label_cat = pd.read_csv('D:/School/School/Master/Jaar_1/Machine Learning in Practice/Competition/Data/Mobile Data/label_categories.csv')
-app_labels = pd.read_csv('D:/School/School/Master/Jaar_1/Machine Learning in Practice/Competition/Data/Mobile Data/app_labels.csv')
-brand_model = pd.read_csv('D:/School/School/Master/Jaar_1/Machine Learning in Practice/Competition/Data/Mobile Data/phone_brand_device_model.csv')
+gender_train = pd.read_csv(CSV_SRC_PREFIX + 'gender_age_train.csv')
+app_events = pd.read_csv(CSV_SRC_PREFIX + 'app_events.csv')
+events = pd.read_csv(CSV_SRC_PREFIX + 'events.csv')
+label_cat = pd.read_csv(CSV_SRC_PREFIX + 'label_categories.csv')
+app_labels = pd.read_csv(CSV_SRC_PREFIX + 'app_labels.csv')
+brand_model = pd.read_csv(CSV_SRC_PREFIX + 'phone_brand_device_model.csv')
 
 gender_train.describe()
 app_events.describe()
@@ -167,8 +170,8 @@ Mobile_Phone_gender = pd.merge(left=gender_train,right=brand_model, left_on='dev
 Mobile_Phone_gender.shape
 print Mobile_Phone_gender
 
-Mobile_Phone_gender.to_csv('Phone_gender.csv')
-Phone_gender = pd.read_csv('C:/Users/Gebruiker/Phone_gender.csv', index_col = 0)
+Mobile_Phone_gender.to_csv(CSV_PATH_PREFIX + 'Phone_gender.csv')
+Phone_gender = pd.read_csv(CSV_PATH_PREFIX + 'Phone_gender.csv', index_col = 0)
 Phone_gender.describe()
 Phone_gender.columns
 
@@ -177,8 +180,8 @@ Checking_Apps = pd.merge(left=app_labels, right=label_cat, left_on='label_id', r
 Checking_Apps.shape
 print Checking_Apps
 
-Checking_Apps.to_csv('Check_Apps.csv')
-Check_Apps = pd.read_csv('C:/Users/Gebruiker/Check_Apps.csv', index_col = 0)
+Checking_Apps.to_csv(CSV_PATH_PREFIX + 'Check_Apps.csv')
+Check_Apps = pd.read_csv(CSV_PATH_PREFIX + 'Check_Apps.csv', index_col = 0)
 Check_Apps.describe()
 Check_Apps.columns
 
@@ -196,34 +199,34 @@ Mobile_Phone_gender_location = Mobile_Phone_gender_location[Mobile_Phone_gender_
 Mobile_Phone_gender_location.shape
 print Mobile_Phone_gender_location
 
-Mobile_Phone_gender_location.to_csv('Phone_Gender_Geo.csv')
-Phone_Gender_Geo = pd.read_csv('C:/Users/Gebruiker/Phone_Gender_Geo.csv', index_col = 0)
+Mobile_Phone_gender_location.to_csv(CSV_PATH_PREFIX + 'Phone_Gender_Geo.csv')
+Phone_Gender_Geo = pd.read_csv(CSV_PATH_PREFIX + 'Phone_Gender_Geo.csv', index_col = 0)
 Phone_Gender_Geo.describe()
 Phone_Gender_Geo.columns
 
 #Controlling Apps on Events
 Checking_Apps_Events = pd.merge(left=Check_Apps,right=app_events, left_on='app_id', right_on='app_id')
-Checking_Apps_Events.to_csv('Checking_Apps_Events.csv')
+Checking_Apps_Events.to_csv(CSV_PATH_PREFIX + 'Checking_Apps_Events.csv')
 
 #Universal Database
-Phone_gender_geo = pd.read_csv('C:/Users/Gebruiker/Phone_Gender_Geo.csv', index_col = 0)
+Phone_gender_geo = pd.read_csv(CSV_PATH_PREFIX + 'Phone_Gender_Geo.csv', index_col = 0)
 Phone_gender_geo.columns
 Phone_gender_geo.head(10)
-Events = pd.read_csv('C:/Users/Gebruiker/Checking_Apps_Events.csv', index_col = 0)
+Events = pd.read_csv(CSV_PATH_PREFIX + 'Checking_Apps_Events.csv', index_col = 0)
 Semi = pd.merge(left=Phone_gender_geo,right=app_events, left_on='event_id', right_on='event_id')
-Semi.to_csv('Semi.csv')
+Semi.to_csv(CSV_PATH_PREFIX + 'Semi.csv')
 
-Semi = pd.read_csv('C:/Users/Gebruiker/Semi.csv', index_col = 0)
+Semi = pd.read_csv(CSV_PATH_PREFIX + 'Semi.csv', index_col = 0)
 Universal = pd.merge(left=Semi,right=Check_Apps, left_on='app_id', right_on='app_id')
 Universal.describe()
 Universal.columns
-Universal.to_csv('Universal.csv')
+Universal.to_csv(CSV_PATH_PREFIX + 'Universal.csv')
 
 Universal.columns
 Universal = Universal[['event_id', 'device_id', 'phone_brand', 'device_model', 'timestamp',
        'longitude', 'latitude','app_id', 'label_id', 'category',
        'is_installed', 'is_active',  'gender', 'age', 'group']]
-Universal.to_csv('Universal.csv')
+Universal.to_csv(CSV_PATH_PREFIX + 'Universal.csv')
 Universal.head(100)
 Universal.columns
 Universal = Universal.sort_values(by='event_id', ascending=1)
@@ -277,22 +280,22 @@ DeviceProperties_6 = DeviceProperties_5.tail(4055391)
 DeviceProperties_7 = DeviceProperties_8.head(4055390)
 DeviceProperties_8 = DeviceProperties_8.tail(4055391)
 
-Universal.to_csv('Universal.csv')
-Universal_1.to_csv('Universal_1.csv')
-Universal_2.to_csv('Universal_2.csv')
-Universal_3.to_csv('Universal_3.csv')
-Universal_4.to_csv('Universal_4.csv')
-Universal_5.to_csv('Universal_5.csv')
-Universal_6.to_csv('Universal_6.csv')
-Universal_7.to_csv('Universal_7.csv')
-Universal_8.to_csv('Universal_8.csv')
+Universal.to_csv(CSV_PATH_PREFIX + 'Universal.csv')
+Universal_1.to_csv(CSV_PATH_PREFIX + 'Universal_1.csv')
+Universal_2.to_csv(CSV_PATH_PREFIX + 'Universal_2.csv')
+Universal_3.to_csv(CSV_PATH_PREFIX + 'Universal_3.csv')
+Universal_4.to_csv(CSV_PATH_PREFIX + 'Universal_4.csv')
+Universal_5.to_csv(CSV_PATH_PREFIX + 'Universal_5.csv')
+Universal_6.to_csv(CSV_PATH_PREFIX + 'Universal_6.csv')
+Universal_7.to_csv(CSV_PATH_PREFIX + 'Universal_7.csv')
+Universal_8.to_csv(CSV_PATH_PREFIX + 'Universal_8.csv')
 
-DeviceProperties.to_csv('DeviceProperties.csv')
-DeviceProperties_1.to_csv('DeviceProperties_1.csv')
-DeviceProperties_2.to_csv('DeviceProperties_2.csv')
-DeviceProperties_3.to_csv('DeviceProperties_3.csv')
-DeviceProperties_4.to_csv('DeviceProperties_4.csv')
-DeviceProperties_5.to_csv('DeviceProperties_5.csv')
-DeviceProperties_6.to_csv('DeviceProperties_6.csv')
-DeviceProperties_7.to_csv('DeviceProperties_7.csv')
-DeviceProperties_8.to_csv('DeviceProperties_8.csv')
+DeviceProperties.to_csv(CSV_PATH_PREFIX + 'DeviceProperties.csv')
+DeviceProperties_1.to_csv(CSV_PATH_PREFIX + 'DeviceProperties_1.csv')
+DeviceProperties_2.to_csv(CSV_PATH_PREFIX + 'DeviceProperties_2.csv')
+DeviceProperties_3.to_csv(CSV_PATH_PREFIX + 'DeviceProperties_3.csv')
+DeviceProperties_4.to_csv(CSV_PATH_PREFIX + 'DeviceProperties_4.csv')
+DeviceProperties_5.to_csv(CSV_PATH_PREFIX + 'DeviceProperties_5.csv')
+DeviceProperties_6.to_csv(CSV_PATH_PREFIX + 'DeviceProperties_6.csv')
+DeviceProperties_7.to_csv(CSV_PATH_PREFIX + 'DeviceProperties_7.csv')
+DeviceProperties_8.to_csv(CSV_PATH_PREFIX + 'DeviceProperties_8.csv')
