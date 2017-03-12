@@ -16,6 +16,8 @@ import datetime as dt
 from sklearn import preprocessing
 import matplotlib.pyplot as plt
 import seaborn as sns
+
+import os
 """
 Data Structure
 """
@@ -25,7 +27,7 @@ def _parse_date(date_str, format_str):
 
 #CSV_PATH_PREFIX = 'D:/School/School/Master/Jaar_1/Machine Learning in Practice/Competition/Data/Mobile Data/'
 CSV_PATH_PREFIX = 'MLiP/'
-CSV_SRC_PREFIX = 'unzipped/'
+CSV_SRC_PREFIX = '../unzipped/'
 
 gender_train = pd.read_csv(CSV_SRC_PREFIX + 'gender_age_train.csv')
 app_events = pd.read_csv(CSV_SRC_PREFIX + 'app_events.csv')
@@ -165,58 +167,72 @@ brand_model.replace('飞秒', 'PANASONIC', inplace=True)
 brand_model.replace('首云', 'PEPSI', inplace=True)
 brand_model.replace('鲜米', 'HI-TECH', inplace=True)
 
-#Mobile phone coupled with Gender
-Mobile_Phone_gender = pd.merge(left=gender_train,right=brand_model, left_on='device_id', right_on='device_id')
-Mobile_Phone_gender.shape
-print Mobile_Phone_gender
+if not os.path.isfile(CSV_PATH_PREFIX + 'Phone_gender.csv'):
+    #Mobile phone coupled with Gender
+    Mobile_Phone_gender = pd.merge(left=gender_train,right=brand_model, left_on='device_id', right_on='device_id')
+    Mobile_Phone_gender.shape
+    print Mobile_Phone_gender
+    print "Saving to '" + CSV_PATH_PREFIX + "Phone_gender.csv'"
 
-Mobile_Phone_gender.to_csv(CSV_PATH_PREFIX + 'Phone_gender.csv')
+    Mobile_Phone_gender.to_csv(CSV_PATH_PREFIX + 'Phone_gender.csv')
+
 Phone_gender = pd.read_csv(CSV_PATH_PREFIX + 'Phone_gender.csv', index_col = 0)
 Phone_gender.describe()
 Phone_gender.columns
 
+if not os.path.isfile(CSV_PATH_PREFIX + 'Check_Apps.csv'):
 #Apps coupled with labels
-Checking_Apps = pd.merge(left=app_labels, right=label_cat, left_on='label_id', right_on='label_id')
-Checking_Apps.shape
-print Checking_Apps
+    Checking_Apps = pd.merge(left=app_labels, right=label_cat, left_on='label_id', right_on='label_id')
+    Checking_Apps.shape
+    print Checking_Apps
+    print "Saving to '" + CSV_PATH_PREFIX + "Check_Apps.csv'"
 
-Checking_Apps.to_csv(CSV_PATH_PREFIX + 'Check_Apps.csv')
+    Checking_Apps.to_csv(CSV_PATH_PREFIX + 'Check_Apps.csv')
+
 Check_Apps = pd.read_csv(CSV_PATH_PREFIX + 'Check_Apps.csv', index_col = 0)
 Check_Apps.describe()
 Check_Apps.columns
 
+if not os.path.isfile(CSV_PATH_PREFIX + 'Phone_Gender_Geo.csv'):
+    #Geolocation gender and phones
+    Mobile_Phone_gender_location = pd.merge(left=Phone_gender,right=events, left_on='device_id', right_on='device_id')
+    Mobile_Phone_gender_location.shape
+    print Mobile_Phone_gender_location
 
-#Geolocation gender and phones
-Mobile_Phone_gender_location = pd.merge(left=Phone_gender,right=events, left_on='device_id', right_on='device_id')
-Mobile_Phone_gender_location.shape
-print Mobile_Phone_gender_location
+    Mobile_Phone_gender_location = Mobile_Phone_gender_location[Mobile_Phone_gender_location.longitude != 0.00]
+    Mobile_Phone_gender_location.shape
+    print Mobile_Phone_gender_location
 
-Mobile_Phone_gender_location = Mobile_Phone_gender_location[Mobile_Phone_gender_location.longitude != 0.00]
-Mobile_Phone_gender_location.shape
-print Mobile_Phone_gender_location
+    Mobile_Phone_gender_location = Mobile_Phone_gender_location[Mobile_Phone_gender_location.latitude != 0.00]
+    Mobile_Phone_gender_location.shape
+    print Mobile_Phone_gender_location
 
-Mobile_Phone_gender_location = Mobile_Phone_gender_location[Mobile_Phone_gender_location.latitude != 0.00]
-Mobile_Phone_gender_location.shape
-print Mobile_Phone_gender_location
+    print "Saving to '" + CSV_PATH_PREFIX + "Phone_Gender_Geo.csv'"
 
-Mobile_Phone_gender_location.to_csv(CSV_PATH_PREFIX + 'Phone_Gender_Geo.csv')
-Phone_Gender_Geo = pd.read_csv(CSV_PATH_PREFIX + 'Phone_Gender_Geo.csv', index_col = 0)
-Phone_Gender_Geo.describe()
-Phone_Gender_Geo.columns
+    Mobile_Phone_gender_location.to_csv(CSV_PATH_PREFIX + 'Phone_Gender_Geo.csv')
 
-#Controlling Apps on Events
-Checking_Apps_Events = pd.merge(left=Check_Apps,right=app_events, left_on='app_id', right_on='app_id')
-Checking_Apps_Events.to_csv(CSV_PATH_PREFIX + 'Checking_Apps_Events.csv')
+if not os.path.isfile(CSV_PATH_PREFIX + 'Checking_Apps_Events.csv'):
+    #Controlling Apps on Events
+    Checking_Apps_Events = pd.merge(left=Check_Apps,right=app_events, left_on='app_id', right_on='app_id')
+    print "Saving to '" + CSV_PATH_PREFIX + "Checking_Apps_Events.csv'"
+
+    Checking_Apps_Events.to_csv(CSV_PATH_PREFIX + 'Checking_Apps_Events.csv')
 
 #Universal Database
 Phone_gender_geo = pd.read_csv(CSV_PATH_PREFIX + 'Phone_Gender_Geo.csv', index_col = 0)
 Phone_gender_geo.columns
 Phone_gender_geo.head(10)
+
 Events = pd.read_csv(CSV_PATH_PREFIX + 'Checking_Apps_Events.csv', index_col = 0)
-Semi = pd.merge(left=Phone_gender_geo,right=app_events, left_on='event_id', right_on='event_id')
-Semi.to_csv(CSV_PATH_PREFIX + 'Semi.csv')
+
+if not os.path.isfile(CSV_PATH_PREFIX + 'Semi.csv'):
+    Semi = pd.merge(left=Phone_gender_geo,right=app_events, left_on='event_id', right_on='event_id')
+
+    print "Saving to '" + CSV_PATH_PREFIX + "Semi.csv'"
+    Semi.to_csv(CSV_PATH_PREFIX + 'Semi.csv')
 
 Semi = pd.read_csv(CSV_PATH_PREFIX + 'Semi.csv', index_col = 0)
+
 Universal = pd.merge(left=Semi,right=Check_Apps, left_on='app_id', right_on='app_id')
 Universal.describe()
 Universal.columns
@@ -232,6 +248,8 @@ Universal.columns
 Universal = Universal.sort_values(by='event_id', ascending=1)
 Universal = Universal[Universal.longitude!= 0]
 Universal = Universal[Universal.latitude!= 0]
+
+
 col_list = list(Universal)
 col_list[0]
 col_list[1]
@@ -242,7 +260,7 @@ col_list[5]
 col_list[0], col_list[3] = col_list[3], col_list[0]
 Universal.columns = col_list
 Universal.head(100)
-DeviceProperties = Universal.copy
+DeviceProperties = Universal.copy()
 DeviceProperties.drop('gender', inplace=True, axis=1)
 DeviceProperties.drop('age', inplace=True, axis=1)
 DeviceProperties.drop('group', inplace=True, axis=1)
