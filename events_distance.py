@@ -20,8 +20,8 @@ per_device = events.head(5000).groupby('device_id')
 for device, device_events in per_device:
     per_day = device_events.groupby(device_events['timestamp'].dt.date)
     print "{}".format(device)
-    days_distance = 0.0
     num_days = 0
+    days_distance = []
     for date, date_events in per_day:
         prev_lat = None
         prev_long = None
@@ -39,9 +39,11 @@ for device, device_events in per_device:
             prev_lat  = float(ev.latitude)
             prev_long = float(ev.longitude)
         print "  {}: {}".format(date, total_distance)
-        num_days += 1
-        days_distance += total_distance
-    print "  Average over {} days: {}".format(num_days, round(days_distance/num_days, 2))
+        days_distance.append(total_distance)
+    print "  In {} days:".format(len(days_distance))
+    print "    Mean distance     : {}".format(round(np.mean(days_distance), 2))
+    print "    Standard deviation: {}".format(round(np.std(days_distance), 2))
+
 
 
 if not os.path.isfile(CSV_PATH_PREFIX + 'device_distance.csv'):
