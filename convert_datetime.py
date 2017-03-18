@@ -5,7 +5,7 @@ import os
 
 CSV_PATH_PREFIX = 'MLiP/'
 CSV_SRC_PREFIX = '../unzipped/'
-events = pd.read_csv(CSV_SRC_PREFIX + 'events.csv', nrows=5000, parse_dates=['timestamp'], infer_datetime_format=True)
+events = pd.read_csv(CSV_SRC_PREFIX + 'events.csv', parse_dates=['timestamp'], infer_datetime_format=True)
 
 first_5k_splitted = events.assign(
     date_year = lambda d: d['timestamp'].dt.year,
