@@ -1,0 +1,29 @@
+Mijn idee is om (gezien Elena's recente post op BB) het volgende aan te houden voor het verslag
+
+- Problem description
+uitwijding over het probleem, dataset, kaggle submissions van anderen 
+
+- Approach
+Chronologisch overzichtje van wat we geprobeerd hebben, en waar we uiteindelijk mee gewerkt hebben
+
+- Results
+Onze eigen submissions: beginnende met de sample submission zodat de baseline duidelijk is. 
+
+- Discussie
+Ik denk dat het ons allemaal wel duidelijk is wat de problemen waren met de data. Vraag is of het hierin gediscussierd moet worden?
+
+Verder discussie over resultaten
+
+- Future ideas
+Wat we ook nog hadden willen doen etc
+
+- Contributions
+Een lijstje met contributies per persoon. Steekwoorden of verhaaltje?
+
+- Repos
+Linkje naar Repo.
+
+- References
+spreekt voor zich
+
+Even duidelijk over de deadline: 19 april. 12 april is de deadline voor de submissies > voor de vissenset. Jordi, kan jij Elena vragen wat voor deadline wij aan moeten houden?
