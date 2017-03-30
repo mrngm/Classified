@@ -17,7 +17,7 @@ from haversine import haversine
 print 'loading data'
 
 #Assumes original kaggle files are in datadir
-datadir = './input'
+datadir = 'D:\School\School\Master\Jaar_1\Machine Learning in Practice\Competition\Data\Mobile Data'
 gatrain = pd.read_csv(os.path.join(datadir,'gender_age_train.csv'),
                       index_col='device_id')
 gatest = pd.read_csv(os.path.join(datadir,'gender_age_test.csv'),
@@ -148,6 +148,7 @@ print('Longitude data: train shape {}, test shape {}'.format(Xtr_long.shape, Xte
 events = events.assign(
     date_year = lambda d: d['timestamp'].dt.year,
     date_month = lambda d: d['timestamp'].dt.month,
+    date_week = lambda d: d['timestamp'].dt.week,
     date_day = lambda d: d['timestamp'].dt.day,
     date_hour = lambda d: d['timestamp'].dt.hour,
     date_minute = lambda d: d['timestamp'].dt.minute,
@@ -270,6 +271,64 @@ d = devicedistance.dropna(subset=['testrow'])
 Xte_distance = csr_matrix((np.ones(d.shape[0]), (d.testrow, d.day_distance)), 
                       shape=(gatest.shape[0],ndistance))
 print('Device Distance: train shape {}, test shape {}'.format(Xtr_distance.shape, Xte_distance.shape))
+#%% Device Activity Per Hour Per Day
+day = events[['device_id','date_hour','date_day']]
+Mon = day.loc[day['date_day'] == 0]
+Tue = day.loc[day['date_day'] == 1]
+Wed = day.loc[day['date_day'] == 2]
+Thu = day.loc[day['date_day'] == 3]
+Fri = day.loc[day['date_day'] == 4]
+Sat = day.loc[day['date_day'] == 5]
+Sun = day.loc[day['date_day'] == 6]
+
+Mon_Ac = Mon.groupby(['device_id', 'date_hour']).count()
+Mon_Ac = Mon_Ac.unstack()
+Mon_Ac = Mon_Ac.fillna(0)
+Mon_Ac = Mon_Ac.div(Mon_Ac.sum(axis=1), axis=0)
+
+Tue_Ac = Tue.groupby(['device_id', 'date_hour']).count()
+Tue_Ac = Tue_Ac.unstack()
+Tue_Ac = Tue_Ac.fillna(0)
+Tue_Ac = Tue_Ac.div(Tue_Ac.sum(axis=1), axis=0)
+
+Wed_Ac = Wed.groupby(['device_id', 'date_hour']).count()
+Wed_Ac = Wed_Ac.unstack()
+Wed_Ac = Wed_Ac.fillna(0)
+Wed_Ac = Wed_Ac.div(Wed_Ac.sum(axis=1), axis=0)
+
+Thu_Ac = Thu.groupby(['device_id', 'date_hour']).count()
+Thu_Ac = Thu_Ac.unstack()
+Thu_Ac = Thu_Ac.fillna(0)
+Thu_Ac = Thu_Ac.div(Thu_Ac.sum(axis=1), axis=0)
+
+Fri_Ac = Fri.groupby(['device_id', 'date_hour']).count()
+Fri_Ac = Fri_Ac.unstack()
+Fri_Ac = Fri_Ac.fillna(0)
+Fri_Ac = Fri_Ac.div(Fri_Ac.sum(axis=1), axis=0)
+
+Sat_Ac = Sat.groupby(['device_id', 'date_hour']).count()
+Sat_Ac = Sat_Ac.unstack()
+Sat_Ac = Sat_Ac.fillna(0)
+Sat_Ac = Sat_Ac.div(Sat_Ac.sum(axis=1), axis=0)
+
+Sun_Ac = Sun.groupby(['device_id', 'date_hour']).count()
+Sun_Ac = Sun_Ac.unstack()
+Sun_Ac = Sun_Ac.fillna(0)
+Sun_Ac = Sun_Ac.div(Sun_Ac.sum(axis=1), axis=0)
+#%% Device Activity per Week
+week = events[['device_id','date_hour','date_week']]
+W17 = week.loc[week['date_week'] == 17]
+W18 = week.loc[week['date_week'] == 18]
+
+W17_Ac = W17.groupby(['device_id', 'date_hour']).count()
+W17_Ac = W17_Ac.unstack()
+W17_Ac = W17_Ac.fillna(0)
+W17_Ac = W17_Ac.div(W17_Ac.sum(axis=1), axis=0)
+
+W18_Ac = W18.groupby(['device_id', 'date_hour']).count()
+W18_Ac = W18_Ac.unstack()
+W18_Ac = W18_Ac.fillna(0)
+W18_Ac = W18_Ac.div(W18_Ac.sum(axis=1), axis=0)
 
 #%% Construct labels and nclasses
 targetencoder = LabelEncoder().fit(gatrain.group)
