@@ -19,6 +19,7 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 import scipy as sp
 from keras.models import Sequential
 from keras.layers import Dense, Dropout
+from keras.layers.advanced_activations import PReLU
 
 #make vectorizer for tfidf processing
 vectorizer = TfidfVectorizer(analyzer = "word")
@@ -92,7 +93,7 @@ for train_index, test_index in skf1.split(np.zeros(len(numlabels)),numlabels):
      #X_test = hstack((vectorizer.transform(apps_clean[test_index]), ~~~))
      
      X_train = vectorizer.fit_transform(docs_train)
-     X_test = vectorizer.transform(docs_test).todense()
+     X_test = vectorizer.transform(docs_test)
      
      Y_train = numlabels[train_index]
      Y_test = numlabels[test_index]
@@ -103,8 +104,10 @@ for train_index, test_index in skf1.split(np.zeros(len(numlabels)),numlabels):
      model = Sequential()
      #print(X_train.shape)
      model.add(Dense(100, input_shape=X_train.shape[1:], init='uniform', activation='relu'))
+     model.add(PReLU())
      model.add(Dropout(0.4))
      model.add(Dense(50, init='uniform', activation='relu'))
+     model.add(PReLU())
      model.add(Dropout(0.2))
      model.add(Dense(12, init='uniform', activation='sigmoid'))
      model.compile(loss='sparse_categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
@@ -113,21 +116,22 @@ for train_index, test_index in skf1.split(np.zeros(len(numlabels)),numlabels):
      
      fit = model.fit_generator(generator=batch_generator(X_train, Y_train, 100, True),
                                nb_epoch=15,
+                               validation_data=(X_test.todense(), Y_test),
                                samples_per_epoch=X_train.shape[0])
      
      #-----------------------------------------------------------
      #Evaluate classifier
      #-----------------------------------------------------------
-     test_pred = model.predict(X_test)
-     test_proba = model.predict_proba(X_test)
-     #test_acc[i] = ACC(Y_test,test_pred)#
+     test_proba = model.predict(X_test.todense())
+     test_class = model.predict_classes(X_test.todense())
+     test_acc[i] = ACC(Y_test,test_class)
      loss[i] = log_loss(numlabels[test_index],test_proba)
-     #confmat = confmat + CM(Y_test,test_pred)#
+     confmat = confmat + CM(Y_test,test_class)
      i=i+1
      print ('end it')
      
      
-#avg_error = np.mean(test_acc)#
+avg_error = np.mean(test_acc)
 avg_loss = np.mean(loss)
 #%%
 #Upload promising results
