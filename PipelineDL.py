@@ -18,7 +18,7 @@ from sklearn.model_selection import StratifiedKFold as SKF
 from sklearn.feature_extraction.text import TfidfVectorizer
 import scipy as sp
 from keras.models import Sequential
-from keras.layers import Dense
+from keras.layers import Dense, Dropout
 
 #make vectorizer for tfidf processing
 vectorizer = TfidfVectorizer(analyzer = "word")
@@ -71,8 +71,8 @@ for train_index, test_index in skf1.split(np.zeros(len(numlabels)),numlabels):
      #X_train = hstack((vectorizer.fit_transform(apps_clean[train_index]),~~~))
      #X_test = hstack((vectorizer.transform(apps_clean[test_index]), ~~~))
      
-     X_train = vectorizer.fit_transform(docs_train)
-     X_test = vectorizer.transform(docs_test)
+     X_train = vectorizer.fit_transform(docs_train).todense()
+     X_test = vectorizer.transform(docs_test).todense()
      
      Y_train = numlabels[train_index]
      Y_test = numlabels[test_index]
@@ -82,10 +82,12 @@ for train_index, test_index in skf1.split(np.zeros(len(numlabels)),numlabels):
      #-----------------------------------------------------------     
      model = Sequential()
      #print(X_train.shape)
-     model.add(Dense(4, input_shape=X_train.shape[1:], init='uniform', activation='relu'))
-     model.add(Dense(2, init='uniform', activation='relu'))
-     model.add(Dense(1, init='uniform', activation='sigmoid'))
-     model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
+     model.add(Dense(100, input_shape=X_train.shape[1:], init='uniform', activation='relu'))
+     model.add(Dropout(0.4))
+     model.add(Dense(50, init='uniform', activation='relu'))
+     model.add(Dropout(0.2))
+     model.add(Dense(12, init='uniform', activation='sigmoid'))
+     model.compile(loss='sparse_categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
      
      model.fit(X_train, Y_train, nb_epoch=10, batch_size=10)
      
@@ -94,14 +96,14 @@ for train_index, test_index in skf1.split(np.zeros(len(numlabels)),numlabels):
      #-----------------------------------------------------------
      test_pred = model.predict(X_test)
      test_proba = model.predict_proba(X_test)
-     test_acc[i] = ACC(Y_test,test_pred)
+     #test_acc[i] = ACC(Y_test,test_pred)
      loss[i] = log_loss(numlabels[test_index],test_proba)
-     confmat = confmat + CM(Y_test,test_pred)
+     #confmat = confmat + CM(Y_test,test_pred)
      i=i+1
      print ('end it')
      
      
-avg_error = np.mean(test_acc)
+#avg_error = np.mean(test_acc)
 avg_loss = np.mean(loss)
 #%%
 #Upload promising results
