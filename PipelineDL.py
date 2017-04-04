@@ -30,6 +30,26 @@ def logloss(act, pred):
     ll = sum(act*sp.log(pred) + sp.subtract(1,act)*sp.log(sp.subtract(1,pred)))
     ll = ll * -1.0/len(act)
     return ll
+
+#%%
+#Code for fiting from generator by Chenglong Chen (https://www.kaggle.com/c/talkingdata-mobile-user-demographics/forums/t/22567/neural-network-for-sparse-matrices)
+def batch_generator(X, y, batch_size, shuffle):
+    number_of_batches = np.ceil(X.shape[0]/batch_size)
+    counter = 0
+    sample_index = np.arange(X.shape[0])
+    if shuffle:
+        np.random.shuffle(sample_index)
+    while True:
+        batch_index = sample_index[batch_size*counter:batch_size*(counter+1)]
+        X_batch = X[batch_index,:].toarray()
+        y_batch = y[batch_index]
+        counter += 1
+        yield X_batch, y_batch
+        if (counter == number_of_batches):
+            if shuffle:
+                np.random.shuffle(sample_index)
+            counter = 0
+
 #%%
 #Load Features, Data and labels.
 
@@ -71,7 +91,7 @@ for train_index, test_index in skf1.split(np.zeros(len(numlabels)),numlabels):
      #X_train = hstack((vectorizer.fit_transform(apps_clean[train_index]),~~~))
      #X_test = hstack((vectorizer.transform(apps_clean[test_index]), ~~~))
      
-     X_train = vectorizer.fit_transform(docs_train).todense()
+     X_train = vectorizer.fit_transform(docs_train)
      X_test = vectorizer.transform(docs_test).todense()
      
      Y_train = numlabels[train_index]
@@ -89,21 +109,25 @@ for train_index, test_index in skf1.split(np.zeros(len(numlabels)),numlabels):
      model.add(Dense(12, init='uniform', activation='sigmoid'))
      model.compile(loss='sparse_categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
      
-     model.fit(X_train, Y_train, nb_epoch=10, batch_size=10)
+     #print(X_train.shape[0])
+     
+     fit = model.fit_generator(generator=batch_generator(X_train, Y_train, 100, True),
+                               nb_epoch=15,
+                               samples_per_epoch=X_train.shape[0])
      
      #-----------------------------------------------------------
      #Evaluate classifier
      #-----------------------------------------------------------
      test_pred = model.predict(X_test)
      test_proba = model.predict_proba(X_test)
-     #test_acc[i] = ACC(Y_test,test_pred)
+     #test_acc[i] = ACC(Y_test,test_pred)#
      loss[i] = log_loss(numlabels[test_index],test_proba)
-     #confmat = confmat + CM(Y_test,test_pred)
+     #confmat = confmat + CM(Y_test,test_pred)#
      i=i+1
      print ('end it')
      
      
-#avg_error = np.mean(test_acc)
+#avg_error = np.mean(test_acc)#
 avg_loss = np.mean(loss)
 #%%
 #Upload promising results
