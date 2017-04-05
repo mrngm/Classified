@@ -21,15 +21,20 @@ from sklearn.model_selection import StratifiedKFold as SKF
 #from sklearn.feature_extraction.text import TfidfVectorizer
 import scipy as sp
 import xgboost as xgb
+from sklearn.preprocessing import LabelEncoder
 
 #%% Load general information and data
 gendir = './general/'
-
+datadir = 'D:/School/School/Master/Jaar_1/Machine Learning in Practice/Competition/Data/Mobile Data'
 train_labels = pickle.load(open(gendir + 'labels.p',"rb"))
 nclasses = pickle.load(open(gendir + 'nclasses.p',"rb"))
 label_encoding = pickle.load(open(gendir + 'label_encoding.p',"rb"))
 device_names = pickle.load(open(gendir + 'device_names.p',"rb"))
-
+gatrain = pd.read_csv(os.path.join(datadir,'gender_age_train.csv'),
+                      index_col='device_id')
+gatest = pd.read_csv(os.path.join(datadir,'gender_age_test.csv'),
+                     index_col = 'device_id')
+targetencoder = LabelEncoder().fit(gatrain.group)
 #%%Load Features 
 
 train_features = []
@@ -97,6 +102,7 @@ for train_index, test_index in skf1.split(np.zeros(len(train_labels)),train_labe
      #-----------------------------------------------------------
      #Evaluate classifier
      #-----------------------------------------------------------
+     i=i+1
      print 'end iteration ' + str(i)
      
      
@@ -105,8 +111,19 @@ avg_loss = np.mean(loss)
 #%% Final prediction and csv saving
 print 'starting final prediction'
 #clf = RF(n_estimators=100, class_weight='balanced')
-LogisticRegression(C=0.02, multi_class='multinomial',solver='lbfgs', class_weight='balanced')
-clf.fit(X_train_full,train_labels)
+params = {}
+params['booster'] = 'gblinear'
+params['objective'] = "multi:softprob"
+params['eval_metric'] = 'mlogloss'
+params['eta'] = 0.005
+params['num_class'] = 12
+params['lambda'] = 3
+params['alpha'] = 1
+
+clf = xgb.train(params, d_train, 1000, watchlist, early_stopping_rounds=25)
+
+pred = clf.predict(xgb.DMatrix(X_test))
+#clf.fit(X_train_full,train_labels)
 pred = pd.DataFrame(clf.predict_proba(X_test_full), index = device_names, columns=label_encoding)
 
 pred.to_csv('testsub.csv',index=True)
