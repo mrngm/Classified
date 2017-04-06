@@ -14,6 +14,7 @@ import os
 from sklearn.preprocessing import LabelEncoder
 import scipy as sp
 from scipy.sparse import csr_matrix
+from sys import exit
 
 
 #%% Forked from dune_dweller on Kaggle: https://www.kaggle.com/dvasyukova/talkingdata-mobile-user-demographics/a-linear-model-on-apps-and-labels
@@ -21,6 +22,22 @@ print 'loading data'
 
 #Assumes original kaggle files are in datadir
 datadir = './input'
+gendir = './general/'
+traindir = './Train_features/'
+testdir = './Test_features/'
+if (os.path.isdir(datadir) != True):
+    raise ValueError("datadir does not exist, please make sure '" + datadir + "' exists and contains the dataset")
+    exit(-1)
+if (os.path.isdir(gendir) != True):
+    raise ValueError("gendir does not exist, please make sure '" + datadir + "' exists")
+    exit(-1)
+if (os.path.isdir(traindir) != True):
+    raise ValueError("traindir does not exist, please make sure '" + traindir + "' exists")
+    exit(-1)
+if (os.path.isdir(testdir) != True):
+    raise ValueError("testdir does not exist, please make sure '" + testdir + "' exists")
+    exit(-1)
+
 gatrain = pd.read_csv(os.path.join(datadir,'gender_age_train.csv'),
                       index_col='device_id')
 gatest = pd.read_csv(os.path.join(datadir,'gender_age_test.csv'),
@@ -115,24 +132,18 @@ device_names = gatest.index
 
 
 #%% Save general data
-
-gendir = './general/'
-
 pickle.dump(train_labels, open(gendir + 'labels.p',"wb"))
 pickle.dump(nclasses, open(gendir + 'nclasses.p',"wb"))
 pickle.dump(label_encoding, open(gendir + 'label_encoding.p',"wb"))
 pickle.dump(device_names, open(gendir + 'device_names.p',"wb"))
 
 #Save train data
-traindir = './Train_features/'
-
 pickle.dump(Xtr_brand, open(traindir + 'phone_brand.p',"wb"))
 pickle.dump(Xtr_model, open(traindir + 'phone_model.p',"wb"))
 pickle.dump(Xtr_app, open(traindir + 'bool_apps_installed.p',"wb"))
 pickle.dump(Xtr_label, open(traindir + 'bool_app_labels.p',"wb"))
 
 #Save test data
-testdir = './Test_features/'
 pickle.dump(Xte_brand, open(testdir + 'phone_brand.p',"wb"))
 pickle.dump(Xte_model, open(testdir + 'phone_model.p',"wb"))
 pickle.dump(Xte_app, open(testdir + 'bool_apps_installed.p',"wb"))
