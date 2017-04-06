@@ -1,0 +1,3 @@
+cp ../unzipped/*.csv input/
+python Feature_extraction.py
+python General_Pipeline.py
