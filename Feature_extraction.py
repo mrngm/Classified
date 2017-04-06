@@ -21,10 +21,10 @@ from sys import exit
 print 'loading data'
 
 #Assumes original kaggle files are in datadir
-datadir = './input'
-gendir = './general/'
-traindir = './Train_features/'
-testdir = './Test_features/'
+datadir = './data/input'
+gendir = './data/general/'
+traindir = './data/Train_features/'
+testdir = './data/Test_features/'
 if (os.path.isdir(datadir) != True):
     raise ValueError("datadir does not exist, please make sure '" + datadir + "' exists and contains the dataset")
     exit(-1)

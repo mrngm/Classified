@@ -24,9 +24,9 @@ import scipy as sp
 from sys import exit
 
 #%% Load general information and data
-gendir = './general/'
-tfdir = './Train_features/'
-ttdir = './Test_features/'
+gendir = './data/general/'
+tfdir = './data/Train_features/'
+ttdir = './data/Test_features/'
 subdir = './submission/'
 
 if (os.path.isdir(gendir) != True):
