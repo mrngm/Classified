@@ -21,28 +21,65 @@ from sklearn.model_selection import StratifiedKFold as SKF
 #from sklearn.feature_extraction.text import TfidfVectorizer
 import scipy as sp
 
+from sys import exit
 
 #%% Load general information and data
 gendir = './general/'
+tfdir = './Train_features/'
+ttdir = './Test_features/'
+subdir = './submission/'
 
-train_labels = pickle.load(open(gendir + 'labels.p',"rb"))
-nclasses = pickle.load(open(gendir + 'nclasses.p',"rb"))
-label_encoding = pickle.load(open(gendir + 'label_encoding.p',"rb"))
-device_names = pickle.load(open(gendir + 'device_names.p',"rb"))
+if (os.path.isdir(gendir) != True):
+    raise ValueError("gendir does not exist, please make sure '" + gendir + "' exists")
+if (os.path.isdir(tfdir) != True):
+    raise ValueError("tfdir does not exist, please make sure '" + tfdir + "' exists")
+if (os.path.isdir(ttdir) != True):
+    raise ValueError("ttdir does not exist, please make sure '" + ttdir + "' exists")
+if (os.path.isdir(subdir) != True):
+    raise ValueError("subdir does not exist, please make sure '" + subdir + "' exists")
+
+try:
+    train_labels = pickle.load(open(gendir + 'labels.p',"rb"))
+    nclasses = pickle.load(open(gendir + 'nclasses.p',"rb"))
+    label_encoding = pickle.load(open(gendir + 'label_encoding.p',"rb"))
+    device_names = pickle.load(open(gendir + 'device_names.p',"rb"))
+except IOError:
+    print "Please run `Feature_extraction.py` first. We do not have the correct Pickle files yet."
+    exit(-1)
 
 #%%Load Features 
 
 train_features = []
 feature_names = []
 
-for filename in os.listdir('./Train_features/'):
-        train_features.append(pickle.load(open('./Train_features/' + filename,"rb")))
-        feature_names.append(filename)
-    
+tfcount = 0
+for filename in os.listdir(tfdir):
+    if (filename[-2:] != ".p"):
+        continue
+    if (filename[-2:] == ".p"):
+        tfcount += 1
+
+    train_features.append(pickle.load(open(tfdir + filename,"rb")))
+    feature_names.append(filename)
+
+if tfcount == 0:
+    print "No pickle files found in training directory, please run Feature_extraction.py first"
+    exit(-3)
+
 test_features = []
 
-for filename in os.listdir('./Test_features/'):
-        test_features.append(pickle.load(open('./Test_features/' + filename,"rb")))
+ttcount = 0
+for filename in os.listdir(ttdir):
+    if (filename[-2:] != ".p"):
+        continue
+    if (filename[-2:] == ".p"):
+        ttcount += 1
+    test_features.append(pickle.load(open(ttdir + filename,"rb")))
+
+if ttcount == 0:
+    print "No pickle files found in test directory, please run Feature_extraction.py first"
+    exit(-4)
+
     
 #%% Combine Features
 
@@ -101,4 +138,4 @@ LogisticRegression(C=0.02, multi_class='multinomial',solver='lbfgs', class_weigh
 clf.fit(X_train_full,train_labels)
 pred = pd.DataFrame(clf.predict_proba(X_test_full), index = device_names, columns=label_encoding)
 
-pred.to_csv('testsub.csv',index=True)
+pred.to_csv(subdir + 'testsub.csv',index=True)
