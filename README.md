@@ -4,13 +4,17 @@
 On [SURFdrive](https://surfdrive.surf.nl/files/index.php/s/FsdEHsJJ6oF7yiL) we
 have put all the input CSV files. They need to be put into `./data/input/`.
 
+Since this is about 1.2GB, we can imagine this takes a while to download.
+Therefore, we have prepared an Anaconda installation on `lilo5.science.ru.nl`,
+with a checkout of our working code, including the data files.
+
 ## Running feature extraction
 After the dataset has been put into `./data/input/`, one can simply run `python
 Feature_extraction.py`. This has been tested with Anaconda 4.3.0 [64-bit
-installer for Python 2.7](https://www.continuum.io/downloads).
+installer for Python 2.7](https://www.continuum.io/downloads), which is the
+version that runs on `lilo5.science.ru.nl`.
 
-We have prepared an Anaconda installation on `lilo5.science.ru.nl`, with a
-checkout of our working code, including the data files. To use it, run:
+Before you can run our code, please do the following on `lilo5.science.ru.nl`:
 
 ```
 $ cd /scratch/gmulder-pub/
