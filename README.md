@@ -62,3 +62,8 @@ start iteration 9
 end iteration 10
 starting final prediction
 ```
+
+## Cleaning up
+
+When in `/scratch/gmulder-pub/repo/`, one can clean up the generated Pickle
+files and submission CSV using `make clean`.
