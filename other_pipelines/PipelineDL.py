@@ -148,7 +148,7 @@ for train_index, test_index in skf1.split(np.zeros(len(train_labels)),train_labe
      #-----------------------------------------------------------     
      
      fit = model.fit_generator(generator=batch_generator(X_train, Y_train, 100, True),
-                               nb_epoch=1,
+                               nb_epoch=5,
                                #validation_data=(X_test.todense(), Y_test),
                                samples_per_epoch=X_train.shape[0])
      
