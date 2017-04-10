@@ -45,6 +45,18 @@ def batch_generator(X, y, batch_size, shuffle):
             if shuffle:
                 np.random.shuffle(sample_index)
             counter = 0
+            
+def batch_generatorp(X, batch_size, shuffle):
+    number_of_batches = X.shape[0] / np.ceil(X.shape[0]/batch_size)
+    counter = 0
+    sample_index = np.arange(X.shape[0])
+    while True:
+        batch_index = sample_index[batch_size * counter:batch_size * (counter + 1)]
+        X_batch = X[batch_index, :].toarray()
+        counter += 1
+        yield X_batch
+        if (counter == number_of_batches):
+            counter = 0
 
 #%% Load general information and data
 gendir = '../data/general/'
@@ -111,7 +123,7 @@ X_test_full = sp.sparse.hstack(test_features, format = 'csr')
 
 #%%
 #Create cross-validation splits (10-fold)
-n = 10
+n = 3
 skf1 = SKF(n_splits = n)
 
 #%%
@@ -149,13 +161,14 @@ for train_index, test_index in skf1.split(np.zeros(len(train_labels)),train_labe
      
      fit = model.fit_generator(generator=batch_generator(X_train, Y_train, 100, True),
                                nb_epoch=5,
-                               #validation_data=(X_test.todense(), Y_test),
+                               validation_data=(X_test.todense(), Y_test),
                                samples_per_epoch=X_train.shape[0])
      
      #-----------------------------------------------------------
      #Evaluate classifier
      #-----------------------------------------------------------
-     test_proba = model.predict(X_test.todense(), batch_size=100)
+     test_proba = model.predict_generator(generator=batch_generatorp(X_test, 100, False),
+                                          val_samples=X_train_full.shape[0])
      test_class = probas_to_classes(test_proba)
      test_acc[i] = ACC(Y_test,test_class)
      loss[i] = log_loss(train_labels[test_index],test_proba)
@@ -169,10 +182,12 @@ avg_loss = np.mean(loss)
 #%% Final prediction and csv saving
 print ('starting final prediction')
 fit = model.fit_generator(generator=batch_generator(X_train_full, train_labels, 100, True),
-                               nb_epoch=1,
-                               #validation_data=(X_test.todense(), Y_test),
-                               samples_per_epoch=X_train_full.shape[0])
-pred_gen = model.predict(X_test_full.todense(), batch_size=100)
+                          nb_epoch=15,
+                          samples_per_epoch=X_train_full.shape[0])
+pred_gen = model.predict_generator(generator=batch_generatorp(X_test_full, 100, False),
+                                   val_samples=X_test_full.shape[0])
 sub = pd.DataFrame(pred_gen, index = device_names, columns=label_encoding)
 
-sub.to_csv(subdir + 'testsub.csv',index=True)
+sub_file = 'testsub.csv'
+sub.to_csv(subdir + sub_file, index=True)
+print ('submission saved to ' + subdir + sub_file)
