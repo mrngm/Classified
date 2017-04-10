@@ -1,0 +1,96 @@
+
+%%%%%%%%%%%%%%%%%%%%%%% file typeinst.tex %%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% This is the LaTeX source for the instructions to authors using
+% the LaTeX document class 'llncs.cls' for contributions to
+% the Lecture Notes in Computer Sciences series.
+% http://www.springer.com/lncs       Springer Heidelberg 2006/05/04
+%
+% It may be used as a template for your own input - copy it
+% to a new file with a new name and use it as the basis
+% for your article.
+%
+% NB: the document class 'llncs' has its own and detailed documentation, see
+% ftp://ftp.springer.de/data/pubftp/pub/tex/latex/llncs/latex2e/llncsdoc.pdf
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass[runningheads,a4paper]{llncs}
+
+\usepackage[utf8]{inputenc}
+
+\usepackage{natbib}
+\bibliographystyle{apalike}
+
+\usepackage{amssymb}
+\setcounter{tocdepth}{3}
+\usepackage{graphicx}
+
+\usepackage[T1]{fontenc} % Pour que les lettres accentuées soient reconnues
+
+\usepackage{url}
+\urldef{\mailsa}\path|{alfred.hofmann, ursula.barth, ingrid.haas, frank.holzwarth,|
+\urldef{\mailsb}\path|anna.kramer, leonie.kunz, christine.reiss, nicole.sator,|
+\urldef{\mailsc}\path|erika.siebert-cole, peter.strasser, lncs}@springer.com|    
+\newcommand{\keywords}[1]{\par\addvspace\baselineskip
+\noindent\keywordname\enspace\ignorespaces#1}
+
+\begin{document}
+
+\mainmatter 
+
+\title{Classified: TalkingData}
+
+\titlerunning{Classified: TalkingData}
+
+\author{Jordi Beernink, Thijs Werrij, Roel Bouman, Gerdriaan Mulder, Jeffrey Luppes}
+
+\institute{Radboud University}
+
+\authorrunning{Team Classified - TalkingData}
+
+\toctitle{Abstract}
+\tocauthor{{}}
+
+\maketitle
+
+\begin{abstract}
+Lorem Ipsum todo lang leve het bier en dan wel lachouffe. Liefde is mooi, liefde is puur. Vrouwen zijn raar, en verschrikkelijk duur. 
+\end{abstract}
+
+\medskip
+
+\begingroup
+\let\clearpage\relax
+\tableofcontents
+\addcontentsline{toc}{section}{Introduction}
+\endgroup
+
+\medskip
+\medskip
+
+\section{Introduction}
+This report details the work done on the TalkingData Competition data set. While the competition closed in September of 2016,  the data set remained public and open to submissions. The concept was to predict a user's preferences based on their mobile behaviour. As an abstraction upon that, the competition revolved around predicting a user's age and gender categories. 
+
+In this report a number of approaches that were tried are discussed along with their results. Finally, some other ideas for follow-up work are discussed as well as individual contributions by team members.
+\subsubsection{Data set}
+The data set was collected from Kaggle and consisted of eight csv files totalling 1.2 GB. In order to generate a single data set these files were merged based on the device ID, which generated a data set of <x,y> GB. This data was fairly noisy, <iets over hoeveel records we hadden in het begin, en even checken of ik de aantallen goed heb> 
+\section{Approach}
+\subsection{Pre-Processing}
+\subsection{Feature Extraction}
+\section{Results}
+\subsection{Submission Scores}
+\section{Discussion}
+\section{Future work}
+\section{Individual Contributions}
+
+\medskip
+
+
+{\small (Example from Jensen K., Wirth N. (1991) Pascal user manual and
+report. Springer, New York)}
+
+\bibliography{references}
+\nocite{*} 
+
+\end{document}
