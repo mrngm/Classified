@@ -25,16 +25,10 @@ from sklearn.preprocessing import LabelEncoder
 
 #%% Load general information and data
 gendir = './general/'
-datadir = 'D:/School/School/Master/Jaar_1/Machine Learning in Practice/Competition/Data/Mobile Data'
 train_labels = pickle.load(open(gendir + 'labels.p',"rb"))
 nclasses = pickle.load(open(gendir + 'nclasses.p',"rb"))
 label_encoding = pickle.load(open(gendir + 'label_encoding.p',"rb"))
 device_names = pickle.load(open(gendir + 'device_names.p',"rb"))
-gatrain = pd.read_csv(os.path.join(datadir,'gender_age_train.csv'),
-                      index_col='device_id')
-gatest = pd.read_csv(os.path.join(datadir,'gender_age_test.csv'),
-                     index_col = 'device_id')
-targetencoder = LabelEncoder().fit(gatrain.group)
 #%%Load Features 
 
 train_features = []
@@ -91,39 +85,44 @@ for train_index, test_index in skf1.split(np.zeros(len(train_labels)),train_labe
      params['booster'] = 'gblinear'
      params['objective'] = "multi:softprob"
      params['eval_metric'] = 'mlogloss'
-     params['eta'] = 0.005
+     params['eta'] = 0.001
      params['num_class'] = 12
      params['lambda'] = 3
      params['alpha'] = 1
+     params['min_child_weight'] = 1
+     params['max_depth'] = 6
+     params['gamma'] = 0
+     params['scale_post_weight'] = 1
+     
 
-     clf = xgb.train(params, d_train, 1000, watchlist, early_stopping_rounds=25)
+     clf = xgb.train(params, d_train, 10000, watchlist, early_stopping_rounds=5)
 
-     pred = clf.predict(xgb.DMatrix(X_test))
+     pred = clf.predict(xgb.DMatrix(X_train))
      #-----------------------------------------------------------
      #Evaluate classifier
      #-----------------------------------------------------------
+     test_pred = clf.predict(xgb.DMatrix(X_test_full))
      i=i+1
      print 'end iteration ' + str(i)
-     
-     
-avg_error = np.mean(test_acc)
-avg_loss = np.mean(loss)
 #%% Final prediction and csv saving
 print 'starting final prediction'
-#clf = RF(n_estimators=100, class_weight='balanced')
+
 params = {}
 params['booster'] = 'gblinear'
 params['objective'] = "multi:softprob"
 params['eval_metric'] = 'mlogloss'
-params['eta'] = 0.005
+params['eta'] = 0.01
 params['num_class'] = 12
 params['lambda'] = 3
 params['alpha'] = 1
+params['min_child_weight'] = 1
+params['max_depth'] = 12
+params['gamma'] = 0
+params['scale_post_weight'] = 1
+clf = xgb.train(params, d_train, 1000, watchlist, early_stopping_rounds=10)
 
-clf = xgb.train(params, d_train, 1000, watchlist, early_stopping_rounds=25)
+pred = clf.predict(xgb.DMatrix(X_test_full))
 
-pred = clf.predict(xgb.DMatrix(X_test))
-#clf.fit(X_train_full,train_labels)
-pred = pd.DataFrame(clf.predict_proba(X_test_full), index = device_names, columns=label_encoding)
+pred = pd.DataFrame(pred, index = device_names, columns=label_encoding)
 
-pred.to_csv('testsub.csv',index=True)
+pred.to_csv('sparse_xgb.csv',index=True)
