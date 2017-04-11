@@ -122,8 +122,8 @@ X_train_full = sp.sparse.hstack(train_features, format = 'csr')
 X_test_full = sp.sparse.hstack(test_features, format = 'csr')
 
 #%%
-#Create cross-validation splits (10-fold)
-n = 3
+#Create cross-validation splits (n-fold)
+n = 10
 skf1 = SKF(n_splits = n)
 
 #%%
@@ -136,13 +136,14 @@ i=0
 
 input_shape = X_train_full.shape[1:]
 model = Sequential()
-model.add(Dense(100, input_shape=input_shape, init='uniform', activation='relu'))
+model.add(Dropout(0.3, input_shape=input_shape))
+model.add(Dense(100, init='normal'))
 model.add(PReLU())
-model.add(Dropout(0.4))
-model.add(Dense(50, init='uniform', activation='relu'))
+model.add(Dropout(0.25))
+model.add(Dense(50, init='normal'))
 model.add(PReLU())
 model.add(Dropout(0.2))
-model.add(Dense(12, init='uniform', activation='sigmoid'))
+model.add(Dense(12, init='normal', activation='sigmoid'))
 model.compile(loss='sparse_categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
 
 #Single loop: testing is done by submitting near-optimal results to Kaggle.
@@ -160,15 +161,15 @@ for train_index, test_index in skf1.split(np.zeros(len(train_labels)),train_labe
      #-----------------------------------------------------------     
      
      fit = model.fit_generator(generator=batch_generator(X_train, Y_train, 100, True),
-                               nb_epoch=5,
+                               nb_epoch=3,
                                validation_data=(X_test.todense(), Y_test),
                                samples_per_epoch=X_train.shape[0])
      
      #-----------------------------------------------------------
      #Evaluate classifier
      #-----------------------------------------------------------
-     test_proba = model.predict_generator(generator=batch_generatorp(X_test, 100, False),
-                                          val_samples=X_train_full.shape[0])
+     test_proba = model.predict_generator(generator=batch_generatorp(X_test, 200, False),
+                                   val_samples=X_test_full.shape[0])
      test_class = probas_to_classes(test_proba)
      test_acc[i] = ACC(Y_test,test_class)
      loss[i] = log_loss(train_labels[test_index],test_proba)
@@ -177,17 +178,18 @@ for train_index, test_index in skf1.split(np.zeros(len(train_labels)),train_labe
      print ('end iteration ' + str(i))
      
      
-avg_error = np.mean(test_acc)
-avg_loss = np.mean(loss)
+#avg_error = np.mean(test_acc)
+#avg_loss = np.mean(loss)
 #%% Final prediction and csv saving
 print ('starting final prediction')
 fit = model.fit_generator(generator=batch_generator(X_train_full, train_labels, 100, True),
-                          nb_epoch=15,
+                          nb_epoch=1,
                           samples_per_epoch=X_train_full.shape[0])
-pred_gen = model.predict_generator(generator=batch_generatorp(X_test_full, 100, False),
+print ('predicting...')
+pred_gen = model.predict_generator(generator=batch_generatorp(X_test_full, 200, False),
                                    val_samples=X_test_full.shape[0])
 sub = pd.DataFrame(pred_gen, index = device_names, columns=label_encoding)
 
-sub_file = 'testsub.csv'
+sub_file = 'DL_sub.csv'
 sub.to_csv(subdir + sub_file, index=True)
 print ('submission saved to ' + subdir + sub_file)
