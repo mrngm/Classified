@@ -23,8 +23,14 @@ import scipy as sp
 import xgboost as xgb
 from sklearn.preprocessing import LabelEncoder
 
+from sys import exit
+
 #%% Load general information and data
-gendir = './general/'
+datadir = '../data/'
+submissiondir = '../submission/'
+gendir = '../data/general/'
+tfdir = datadir + 'Train_features/'
+ttdir = datadir + 'Test_features/'
 train_labels = pickle.load(open(gendir + 'labels.p',"rb"))
 nclasses = pickle.load(open(gendir + 'nclasses.p',"rb"))
 label_encoding = pickle.load(open(gendir + 'label_encoding.p',"rb"))
@@ -34,14 +40,33 @@ device_names = pickle.load(open(gendir + 'device_names.p',"rb"))
 train_features = []
 feature_names = []
 
-for filename in os.listdir('./Train_features/'):
-        train_features.append(pickle.load(open('./Train_features/' + filename,"rb")))
-        feature_names.append(filename)
-    
+tfcount = 0
+for filename in os.listdir(tfdir):
+    if filename[-2:] != ".p":
+        continue
+    if filename[-2:] == ".p":
+        tfcount += 1
+    train_features.append(pickle.load(open(tfdir + filename,"rb")))
+    feature_names.append(filename)
+
+if tfcount == 0:
+    print "No pickle files found in train directory, please run Feature_extraction.py first"
+    exit(-4)
+
+
 test_features = []
 
-for filename in os.listdir('./Test_features/'):
-        test_features.append(pickle.load(open('./Test_features/' + filename,"rb")))
+ttcount = 0
+for filename in os.listdir(ttdir):
+    if filename[-2:] != ".p":
+        continue
+    if filename[-2:] == ".p":
+        ttcount += 1
+    test_features.append(pickle.load(open(ttdir + filename,"rb")))
+
+if ttcount == 0:
+    print "No pickle files found in test directory, please run Feature_extraction.py first"
+    exit(-4)
     
 #%% Combine Features
 
@@ -125,4 +150,4 @@ pred = clf.predict(xgb.DMatrix(X_test_full))
 
 pred = pd.DataFrame(pred, index = device_names, columns=label_encoding)
 
-pred.to_csv('sparse_xgb.csv',index=True)
+pred.to_csv(submissiondir + 'sparse_xgb.csv',index=True)
