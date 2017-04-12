@@ -84,6 +84,12 @@ After it is done, the submission CSV can be found in `./submission/sparse_xgb.cs
 When in `/scratch/gmulder-pub/repo/`, one can clean up the generated Pickle
 files and submission CSV using `make clean`.
 
+## Old files
+
+If you're interested in the files we used during development, please have
+a look at [this point in time](https://github.com/RoelBouman/Classified/tree/60eb72c57a1b12fbd52c6205e56b363fd15a6780)
+in our repository.
+
 ## Output from Python scripts
 If everything goes according to plan, you will find the following
 console output:
