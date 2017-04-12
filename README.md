@@ -5,7 +5,7 @@ On [SURFdrive](https://surfdrive.surf.nl/files/index.php/s/FsdEHsJJ6oF7yiL) we
 have put all the input CSV files. They need to be put into `./data/input/`.
 
 Since this is about 1.2GB, we can imagine this takes a while to download.
-Therefore, we have prepared an Anaconda installation on `lilo5.science.ru.nl`,
+Therefore, we have prepared two Anaconda installations on `lilo5.science.ru.nl`,
 with a checkout of our working code, including the data files.
 
 ## Preparation on lilo5.science.ru.nl
@@ -28,9 +28,7 @@ using `export PATH=${ORIGINAL_PATH}`, or simply logout and login again.
 
 ## Running feature extraction
 After the dataset has been put into `./data/input/`, one can simply run `python
-Feature_extraction.py`. This has been tested with Anaconda 4.3.0 [64-bit
-installer for Python 2.7](https://www.continuum.io/downloads), which is the
-version that runs on `lilo5.science.ru.nl` (see above).
+Feature_extraction.py`.
 
 ```
 $ python2 Feature_extraction.py   # takes about 1 minute  on lilo5
@@ -59,10 +57,36 @@ $ cd other_pipelines/
 $ python3 PipelineDL.py
 ```
 
+**Caveat**: When running this for testing purposes on lilo5.science.ru.nl,
+the process ran for about ~3~ 4 CPU hours without results (see the output
+of `script` here: `/scratch/gmulder-pub/repo/other_pipelines/pdl.log`. The
+process might still be running when you read this. Its output will be
+appended to the `pdl.log` log file). This might have to do with inconsistencies
+with the machine on which the code was developed and lilo5.science.ru.nl
+
 ### XGBoost pipeline
 
+First run `Feature_extraction.py` (see above), then:
+
+```
+$ cd other_pipelines/
+$ python2 Pipeline\ XGB.py     # this takes about X minutes on lilo5
+```
+
+(initially, XGBoost missed a library, this was [fixed with
+`conda install libgcc`](https://github.com/dmlc/xgboost/issues/1043#issuecomment-255603019)
+that updates the needed libraries)
+
+After it is done, the submission CSV can be found in `./submission/sparse_xgb.csv`.
+
+## Cleaning up
+
+When in `/scratch/gmulder-pub/repo/`, one can clean up the generated Pickle
+files and submission CSV using `make clean`.
+
 ## Output from Python scripts
-If everything goes according to plan, you will find the following output:
+If everything goes according to plan, you will find the following
+console output:
 
 ```
 $ python Feature_extraction.py 
@@ -111,10 +135,10 @@ Epoch 2/3
 67176/67176 [==============================] - 47s - loss: 2.2684 - acc: 0.1951 - val_loss: 2.3609 - val_acc: 0.1591
 Epoch 3/3
 67176/67176 [==============================] - 46s - loss: 2.2340 - acc: 0.2082 - val_loss: 2.3621 - val_acc: 0.1580
-[TODO]
+[..]
 ```
 
-## Cleaning up
+```
+$ python2 Pipeline\ XGB.py
 
-When in `/scratch/gmulder-pub/repo/`, one can clean up the generated Pickle
-files and submission CSV using `make clean`.
+```
