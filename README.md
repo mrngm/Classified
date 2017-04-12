@@ -78,6 +78,8 @@ $ python2 Pipeline\ XGB.py     # this takes about X minutes on lilo5
 that updates the needed libraries)
 
 After it is done, the submission CSV can be found in `./submission/sparse_xgb.csv`.
+At the moment of writing, it is still running. The current
+output can be found in `./other_pipelines/xg.log`.
 
 ## Cleaning up
 
