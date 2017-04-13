@@ -70,13 +70,24 @@ Lorem Ipsum todo lang leve het bier en dan wel lachouffe. Liefde is mooi, liefde
 \medskip
 
 \section{Introduction}
-This report details the work done on the TalkingData Competition data set. While the competition closed in September of 2016,  the data set remained public and open to submissions. The concept was to predict a user's preferences based on their mobile behaviour. As an abstraction upon that, the competition revolved around predicting a user's age and gender categories. 
+This report details the work done on the TalkingData Competition data set by the Classified team. While the competition closed in September of 2016,  the data set remained public and open to submissions while the leaderboard was frozen.
 
-In this report a number of approaches that were tried are discussed along with their results. Finally, some other ideas for follow-up work are discussed as well as individual contributions by team members.
+In this report a number of approaches that were tried are discussed along with their results. Finally, some other ideas for follow-up work are discussed as well as individual contributions by team members. All of the code referenced in this report can be found in a Github repository linked to at the end of this report. 
 
 \subsection{Data set}
-The data set was collected from Kaggle and consisted of eight csv files totalling 1.2 GB. In order to generate a single data set these files were merged based on the device ID, which generated a data set of <x,y> GB. This data was fairly noisy, <iets over hoeveel records we hadden in het begin, en even checken of ik de aantallen goed heb> 
+The data set was collected from Kaggle and consisted of eight csv files totalling 1.2 GB. In order to generate a single data set these files were merged based on the device ID, which generated a data set of 4.2 GB. This data was fairly sparse, as many entries only had a few associated events, while others ranged in the thousands. This was true also for the phone brand types. 
+\medskip
 
+A short schema of the raw data is as follows:
+\begin{itemize}
+\item app\_events: \textit{event\_id, app\_id, is\_installed, is\_active}
+\item app\_labels: \textit{app\_id, label_id}
+\item events: \textit{event\_id, device\_id, timestamp, coordinates}
+\item gender\_age: \textit{device\_id, gender, age, group}
+\item phone\_brand\_device\_model: \textit{device\_id, phone\_brand, device\_model}
+\end{itemize}
+
+\subsection{Problem Description}
 \section{Approach}
 <wat we gedaan hebben in vogelvlucht>
 \subsection{Pre-Processing}
