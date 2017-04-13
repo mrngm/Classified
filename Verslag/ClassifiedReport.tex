@@ -25,7 +25,7 @@
 \usepackage{amssymb}
 \setcounter{tocdepth}{3}
 \usepackage{graphicx}
-\usepackage{epigraph}
+\usepackage{hyperref}
 
 \usepackage[T1]{fontenc} % Pour que les lettres accentuées soient reconnues
 
@@ -76,7 +76,7 @@ This report details the work done on the TalkingData Competition data set by the
 In this report a number of approaches that were tried are discussed along with their results. Finally, some other ideas for follow-up work are discussed as well as individual contributions by team members. All of the code referenced in this report can be found in a Github repository linked to at the end of this report. 
 
 \subsection{Data set}
-The data set was collected from Kaggle and consisted of eight csv files totalling 1.2 GB. In order to generate a single data set these files were merged based on the device ID, which generated a data set of 4.2 GB. This data was fairly sparse, as many entries only had a few associated events, while others ranged in the thousands. This was true also for the phone brand types with some phones appearing only a few times while others had a massive share. 
+The data set was collected from Kaggle and consisted of eight csv files totalling 1.2 GB. In order to generate a single data set these files were merged based on the device ID, which generated a data set of 4.2 GB. This data was fairly sparse, as many entries only had a few associated events, while others ranged in the thousands. This was true also for the phone brand types with some phones appearing only a few times while others had quite a massive share. 
 \medskip
 
 A short schema of the raw data is as follows:
@@ -89,10 +89,13 @@ A short schema of the raw data is as follows:
 \end{itemize}
 
 \subsection{Problem Description}
-\textit{"Nothing is more comforting than being greeted by your favorite drink just as you walk through the door of the corner café." -- TalkingData Competition Page }
-The goal of the competition is to predict mobile behaviour based upon app, brand and location information. As an abstraction upon this, the goal is to accurately predict in which gender and age group the owner of a mobile device resides. The predictions are accepted as twelve categories: six age groups for each gender. 
+\textit{"Nothing is more comforting than being greeted by your favorite drink just as you walk through the door of the corner café." -- TalkingData Competition Page } 
+\smallskip
+\newline
+\noindent
+The goal of the competition is to predict mobile behaviour based upon app usage, phone brand and location information. As an abstraction upon this, the goal is to accurately predict in which gender and age group the owner of a mobile device resides. The predictions are accepted as twelve categories: six age groups for each gender. 
 \subsection{Evaluation}
-Submissions are evaluated using the multi-class logarithmic loss algorithm. For each device the output is a row in a csv file with the device\_id followed by twelve probabilities between 0 and 1 corresponding to the prediction for each class. These do not have to amount to one as these are rescaled prior to being scored. 
+Submissions are evaluated using the multi-class logarithmic loss algorithm. For each device the output is a row in a csv file with the device\_id followed by twelve probabilities between 0 and 1 corresponding to the prediction for each class.
 \section{Approach}
 <wat we gedaan hebben in vogelvlucht>
 \subsection{Pre-Processing}
@@ -108,16 +111,21 @@ Een stukkie over NN, XGB, en RF? Jordi en ik XGB, Thijss NN en Roel even RF?
 \section{Discussion}
 <discussie resultaten>
 \section{Future work}
-<hier wil ik nog wat mee doen: maar het moet niet te lang mee doen. Zijn best nog wel leuke ideeën die op kaggle staan>
+A number of concepts were considered but not explored (fully) 
+
+
 \section{Individual Contributions}
-<lijstje met contributies, moet ook reflectie er in o.i.d? Even aan Gido vragen!>
-+ linkje naar repo
+By alphanummeric ordering:
+\begin{itemize}
+\item Jordi Beernink: \textit{Project leader, Pre-processing, XGBoost implementation}
+\item Roel Bouman: \textit{Classification Pipeline and RF implementation}
+\item Jeffrey Luppes: \textit{XGBoost implementation, Report writing}
+\item Gerdriaan Mulder: \textit{Pre-processing, installation on the lilo servers}
+\item Thijs Werrij - \textit{Deep Learning}
+\end{itemize}
+\subsection{Github Repository}
+All code accompanying this report may be retrieved from \url{https://github.com/RoelBouman/Classified/tree/first_competition} where it has been bundled as a release. The README on that page alsohas extensive material on how to run the code on the lilo.science.ru.nl servers where it has been prepared for a demo. 
 \medskip
-
-
-{\small (Example from Jensen K., Wirth N. (1991) Pascal user manual and
-report. Springer, New York)}
-
 \bibliography{references}
 \nocite{*} 
 
