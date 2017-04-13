@@ -25,6 +25,7 @@
 \usepackage{amssymb}
 \setcounter{tocdepth}{3}
 \usepackage{graphicx}
+\usepackage{epigraph}
 
 \usepackage[T1]{fontenc} % Pour que les lettres accentuées soient reconnues
 
@@ -75,19 +76,23 @@ This report details the work done on the TalkingData Competition data set by the
 In this report a number of approaches that were tried are discussed along with their results. Finally, some other ideas for follow-up work are discussed as well as individual contributions by team members. All of the code referenced in this report can be found in a Github repository linked to at the end of this report. 
 
 \subsection{Data set}
-The data set was collected from Kaggle and consisted of eight csv files totalling 1.2 GB. In order to generate a single data set these files were merged based on the device ID, which generated a data set of 4.2 GB. This data was fairly sparse, as many entries only had a few associated events, while others ranged in the thousands. This was true also for the phone brand types. 
+The data set was collected from Kaggle and consisted of eight csv files totalling 1.2 GB. In order to generate a single data set these files were merged based on the device ID, which generated a data set of 4.2 GB. This data was fairly sparse, as many entries only had a few associated events, while others ranged in the thousands. This was true also for the phone brand types with some phones appearing only a few times while others had a massive share. 
 \medskip
 
 A short schema of the raw data is as follows:
 \begin{itemize}
 \item app\_events: \textit{event\_id, app\_id, is\_installed, is\_active}
-\item app\_labels: \textit{app\_id, label_id}
+\item app\_labels: \textit{app\_id, label\_id}
 \item events: \textit{event\_id, device\_id, timestamp, coordinates}
 \item gender\_age: \textit{device\_id, gender, age, group}
 \item phone\_brand\_device\_model: \textit{device\_id, phone\_brand, device\_model}
 \end{itemize}
 
 \subsection{Problem Description}
+\textit{"Nothing is more comforting than being greeted by your favorite drink just as you walk through the door of the corner café." -- TalkingData Competition Page }
+The goal of the competition is to predict mobile behaviour based upon app, brand and location information. As an abstraction upon this, the goal is to accurately predict in which gender and age group the owner of a mobile device resides. The predictions are accepted as twelve categories: six age groups for each gender. 
+\subsection{Evaluation}
+Submissions are evaluated using the multi-class logarithmic loss algorithm. For each device the output is a row in a csv file with the device\_id followed by twelve probabilities between 0 and 1 corresponding to the prediction for each class. These do not have to amount to one as these are rescaled prior to being scored. 
 \section{Approach}
 <wat we gedaan hebben in vogelvlucht>
 \subsection{Pre-Processing}
