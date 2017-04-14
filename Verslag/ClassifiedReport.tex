@@ -99,9 +99,20 @@ Submissions are evaluated using the multi-class logarithmic loss algorithm. For 
 \section{Approach}
 <wat we gedaan hebben in vogelvlucht>
 \subsection{Pre-Processing}
-<wat de struggles waren bij pp>
+The pre-processing step was the most tedious phase. After merging the .csv files together the data was still incredibly sparse: over 80\% of the devices had missing data and over 2/3rds of all devices had no events linked to them. With that knowledge the data files were instead combined on basis of the device properties and the installed applications. 
 \subsection{Feature Extraction}
-<idem>
+The feature extraction was the same as the preprocessing as this was done in two different methods. 
+
+\begin{enumerate}
+\item Manual 
+\item Automatic
+\end{enumerate}
+
+
+The manual method was done by creating a co-occurrence matrix of each possible combination of features and the age gender group, gender and age. These matrices were made into histograms to visualize possible preferences of features per age gender group. These features were: Brand, Model, Apps installed and the amount of events present.
+
+The automatic method consisted of One Hot Encoding all the features that were mentioned in the manual method, excluding events present. These One Hot Encoding arrays were then converted into a sparse matrix and were then dumped into pickle files. Which could be used for the pipeline. 
+
 \subsection{Classifiers}
 Een stukkie over NN, XGB, en RF? Jordi en ik XGB, Thijss NN en Roel even RF?
 \section{Results}
