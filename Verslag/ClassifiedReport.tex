@@ -71,7 +71,7 @@ Lorem Ipsum todo lang leve het bier en dan wel lachouffe. Liefde is mooi, liefde
 \medskip
 
 \section{Introduction}
-This report details the work done on the TalkingData Competition data set by the Classified team. While the competition closed in September of 2016,  the data set remained public and open to submissions while the leaderboard was frozen.
+This report details the work done on the TalkingData Competition data set by the Classified team. While the competition closed in September of 2016,  the data set remained public and open to submissions but the leaderboard was frozen.
 
 In this report a number of approaches that were tried are discussed along with their results. Finally, some other ideas for follow-up work are discussed as well as individual contributions by team members. All of the code referenced in this report can be found in a Github repository linked to at the end of this report. 
 
@@ -97,17 +97,11 @@ The goal of the competition is to predict mobile behaviour based upon app usage,
 \subsection{Evaluation}
 Submissions are evaluated using the multi-class logarithmic loss algorithm. For each device the output is a row in a csv file with the device\_id followed by twelve probabilities between 0 and 1 corresponding to the prediction for each class.
 \section{Approach}
-<wat we gedaan hebben in vogelvlucht>
+The following section discusses the approach to this problem. 
 \subsection{Pre-Processing}
 The pre-processing step was the most tedious phase. After merging the .csv files together the data was still incredibly sparse: over 80\% of the devices had missing data and over 2/3rds of all devices had no events linked to them. With that knowledge the data files were instead combined on basis of the device properties and the installed applications. 
 \subsection{Feature Extraction}
 The feature extraction was the same as the preprocessing as this was done in two different methods. 
-
-\begin{enumerate}
-\item Manual 
-\item Automatic
-\end{enumerate}
-
 
 The manual method was done by creating a co-occurrence matrix of each possible combination of features and the age gender group, gender and age. These matrices were made into histograms to visualize possible preferences of features per age gender group. These features were: Brand, Model, Apps installed and the amount of events present.
 
@@ -122,7 +116,7 @@ Een stukkie over NN, XGB, en RF? Jordi en ik XGB, Thijss NN en Roel even RF?
 \section{Discussion}
 <discussie resultaten>
 \section{Other ideas}
-A number of concepts were considered but not explored. For features the many options with the spatial coordinates were not fully used. It could have been possible to reverse geocode the coordinate pairs to trace devices to cities and use that information as a feature. Additionally, many more features could have been involved that involve distance, density or time.
+A number of concepts were considered but not explored. For features the many options with the spatial coordinates were not fully used. It could have been possible to reverse geocode the coordinate pairs to trace devices to cities and use that information as a feature. Additionally, many more features could have been involved that involve distance, density or time. 
 
 \section{Individual Contributions}
 By alphanummeric ordering:
