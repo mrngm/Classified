@@ -1,0 +1,53 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+
+\title{Project MLiP 1}
+\author{jordi.beernink }
+\date{April 2017}
+
+\begin{document}
+
+\maketitle
+
+\section{Preprocessing}
+The preprocessing was done in two different steps. The first step consisted of combining all the different csv files into both an Training set and a Test set. This did result in 80 percent of missing data and 2/3 of the devices not being linked to any events. 
+
+The second step consisted of combining the data files only based on the device properties and applications that were installed. This resulted in the complete version of the dataset.~\cite{Dune}.
+
+\section{Feature Extraction}
+The feature extraction was the same as the preprocessing as this was done in two different methods. 
+
+\begin{enumerate}
+\item Manual 
+\item Automatic
+\end{enumerate}
+
+The manual method was done by creating a co-occurrence matrix of each possible combination of features and the age gender group, gender and age. These matrices were made into histograms to visualize possible preferences of features per age gender group. These features were: Brand, Model, Apps installed and the amount of events present.
+
+The automatic method consisted of One Hot Encoding all the features that were mentioned in the manual method, excluding events present. These One Hot Encoding arrays were then converted into a sparse matrix and were then dumped into pickle files. Which could be used for the pipeline. 
+
+\bibliography{mybib}{}
+\bibliographystyle{plain}
+
+\begin{thebibliography}{9}
+
+\bibitem{Dune}
+Dunedweller,
+\emph{: TalkingData - Linear Model on Apps and Labels},
+https://www.kaggle.com/dvasyukova/talkingdata-mobile-user-demographics/a-linear-model-on-apps-and-labels,
+Kaggle,
+2016.
+  
+\bibitem{OHC}
+Harris, David  and Harris, Sarah. 
+\emph{: Digital design and computer architecture},  
+2nd Edition,
+San Francisco, Calif,
+Morgan Kaufmann,
+p. 129,
+ISBN 978-0-12-394424-5,
+24th July 2014
+
+\end{thebibliography}
+
+\end{document}
