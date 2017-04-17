@@ -1,0 +1,75 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+
+\title{Project MLiP 1}
+\author{jordi.beernink }
+\date{April 2017}
+
+\begin{document}
+
+\maketitle
+
+\section{XGBOOST}
+
+One of the methods that was used in this project was XGBOOST. Which is an acronym for Extreme Gradient Boosting. Which is a variation on the machine learning algorithm: Gradient Boosting.~\cite{Chen Tianqi, 2015}. 
+
+Gradient boosting is a machine learning technique for regression and classification problems, which produces a prediction model in the form of an ensemble of weak prediction models. It builds the model in a stage-wise fashion like other boosting methods and it generalizes them by allowing optimization of an arbitrary differentiable loss function.~\cite{Chen Tianqi, 2015}.
+
+
+The difference between the two terms lies in the fact that XGBOOST uses a more regularized model formalization to control over-fitting. Which should give it a better performance.~\cite{Chen Tianqi, 2014}. 
+
+The parameters of XGBOOST can be divided into three main aspects:~\cite{Aarshay Jain, 2016}: 
+
+\begin{enumerate}
+    \item General: Which guides the overall functioning
+    \item Booster: Guides the individual booster(tree/regression) at each step
+    \item Learning Task: Guides the optimization
+\end{enumerate}
+
+For this project the iterations, type of model (tree-based, linear), depth, weight and loss of the leaf nodes and the learning rate(known as eta) were used to get the optimal results out of the dataset. Due to the lack of knowledge concerning this algorithm, it was not possible to find the optimum values for these parameters to get the optimal results.  
+
+\section{XGBoost Results}
+For the Kaggle submissions, both a linear model and the tree structure were used to test which resulted in a better score.
+
+XGBoost Linear Model:
+\begin{enumerate}
+    \item Score: 2.26853
+    \item Position: 776
+\end{enumerate}
+
+XGBoost Tree Model:
+\begin{enumerate}
+     \item Score: 2.27968
+    \item Position: 996   
+\end{enumerate}
+
+
+\bibliography{mybib}{}
+\bibliographystyle{plain}
+
+\begin{thebibliography}{9}
+
+\bibitem{Chen Tianqi, 2015}
+Chen Tianqi
+\emph{: TalkingData - Linear Model on Apps and Labels},
+https://www.quora.com/What-is-the-difference-between-the-R-gbm-gradient-boosting-machine-and-xgboost-extreme-gradient-boosting,
+Quora,
+15th September 2015.
+  
+\bibitem{Chen Tianqi, 2014}
+Chen Tianqi
+\emph{: Digital design and computer architecture},  
+A Gentle Introduction to Gradient Boosting,
+University of Washington,
+22nd October 2014
+
+\bibitem{Aarshay Jain, 2016}
+Aarshay Jain. 
+\emph{: Digital design and computer architecture},  
+https://www.analyticsvidhya.com/blog/2016/03/complete-guide-parameter-tuning-xgboost-with-codes-python/
+Complete Guide to Parameter Tuning in XGBoost (with codes in Python)
+1st March 2016
+
+\end{thebibliography}
+
+\end{document}
