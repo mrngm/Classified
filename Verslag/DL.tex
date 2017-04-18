@@ -1,3 +1,5 @@
+\usepackage{booktabs}
+
 \subsection{Classifiers}
 
 \subsubsection{Deep Learning/Neural networks}
@@ -5,6 +7,27 @@
 In our project, we also tried to train and test a deep neural network. We used Keras, which is a Deep Learning library for Theano and Tensorflow. The implementation of Keras models is pretty straightforward: you create a model and add layers to it via already implemented methods. In the model, we used three different layers. The first is the Dense layer, which is just a normal densely-connected neural network layer, where you have to define how many neural units you want to use. Another layer we used was the Dropout layer. This layer sets a given fraction of inputs to zero, to compensate for overfitting. The third layer we used was PReLU, or Parametric Rectified Linear Unit, which `adaptively learns the parameters of the rectifiers, and improves accuracy at negligible extra computational cost.' \cite{PReLU}
 
 After testing the model with some input data, we implemented the model into the pipeline. The variables that can be defined for testing are the number of iterations (splits for cross-validation) and the number of epochs (separately for the initial training cycles and the final training). Furthermore, you can change the Dropout rates and Dense units, but we tried to keep these constant by using commonly used values and values that returned better results.
+
+\subsection{Results}
+
+\subsubsection{Deep Learning/Neural networks}
+
+We have done a few tests to test the effect of the variables on the score. See table below:
+
+\begin{table}[h]
+\centering
+\caption{Deep Learning Kaggle submissions and their corresponding variables}
+\begin{tabular}{@{}llll@{}}
+\toprule
+\textbf{\begin{tabular}[c]{@{}l@{}}Number of iterations\\ (cross-validation splits)\end{tabular}} & \textbf{\begin{tabular}[c]{@{}l@{}}Number of epochs\\ in cross-validation\end{tabular}} & \textbf{\begin{tabular}[c]{@{}l@{}}Number of epochs\\ in final training\end{tabular}} & \textbf{Score} \\ \midrule
+2                                                                                                 & 3                                                                                       & 1                                                                                     & 2.25836        \\
+5                                                                                                 & 3                                                                                       & 1                                                                                     & 2.34029        \\
+2                                                                                                 & 10                                                                                      & 1                                                                                     & 2.31941        \\
+2                                                                                                 & 3                                                                                       & 10                                                                                    & 2.35317        \\ \bottomrule
+\end{tabular}
+\end{table}
+
+You can see something strange happening: the score is quite good for a low number of iterations and epochs, but gets worse over time. You would expect the exact opposite to happen. We think this has to do with overfitting, and tried to fix the problem using the Dropout layers, but have not succeeded yet, so this would be a suggestion for further work. Once this problem has been solved, it would be possible to test higher variables, as now we have tried to keep it as low as possible, as this gave the best results.
 
 \bibliography{mybib}{}
 \bibliographystyle{plain}
