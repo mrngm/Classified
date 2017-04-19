@@ -38,7 +38,7 @@
 \maketitle
 \section{Introduction}
 \noindent
-This report details the work done on the TalkingData Competition data set by the Classified team. While the competition closed in September of 2016,  the data set remained public and open to submissions though the leaderboard was frozen.
+This report details the work done on the TalkingData Competition data set by the Classified team. While the competition closed in September of 2016, the data set remained public and open to submissions though the leaderboard was frozen.
 
 \subsubsection{Problem Description}
 The goal of the competition is to predict mobile behaviour based upon app usage, phone brand and location information. As an abstraction upon this, the goal is to accurately predict in which gender and age group the owner of a mobile device resides. The predictions are accepted as twelve categories: six age groups for each gender. Submissions to the competition are evaluated and ranked using the multi-class logarithmic loss algorithm.
@@ -55,11 +55,11 @@ Initially a single pipeline using Random Forests was created, before being exten
 \subsubsection{Random Forests}
 To establish a baseline for a Random Forest Classifier from the Scikit-learn package was implemented, as it was presumed that it could serve as a starting point for more complex models. After scoring even worse than the benchmark submission of each class having an equal percentage it was quickly made clear that the sparse nature of the data was something that worked against the trees.
 \subsubsection{Logistic Regression}
-Unexpectedly good performance came from the Logistic Regression classifier. The best working solver for the large sparse dataset was Limited-memory BFGS. 
+Unexpectedly good performance came from the Logistic Regression classifier. The best working solver for the large sparse data set was Limited-memory BFGS. 
 \subsubsection{XGBoost}
 Extreme Gradiant Boosting~\cite{CT2015} was used to much better effect than Random Forests. While computational intense, and harder to implement well, it was well suited for the problem. \medskip
 \subsubsection{Deep Learning/Neural networks}
-With the use of Keras-  a library for Theano and Tensorflow, a neural network model was made. The network consists of a dense layer, a dropout layer, and an output layer that uses Parametric Rectified Linear Unit (PReLU) \cite{PReLU}. 
+With the use of Keras, a library for Theano and Tensorflow, a neural network model was made. The network consists of several dense layers, dropout layers, and layers that use Parametric Rectified Linear Unit (PReLU) \cite{PReLU}. 
 
 
 \section{Results}
