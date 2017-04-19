@@ -39,28 +39,28 @@
 \maketitle
 \section{Introduction}
 \noindent
-This report details the work done on the TalkingData Competition data set by the Classified team. While the competition closed in September of 2016, the data set remained public and open to submissions though the leaderboard was frozen.
+This report details the work done on the TalkingData Competition data set by the Classified team. Although the competition closed in September of 2016, the data set remained public and open to submissions, but the leaderboard was frozen as the competition closed.
 
 \subsubsection{Problem Description}
-The goal of the competition is to predict mobile behaviour based upon app usage, phone brand and location information. As an abstraction upon this, the goal is to accurately predict in which gender and age group the owner of a mobile device resides. The predictions are accepted as twelve categories: six age groups for each gender. Submissions to the competition are evaluated and ranked using the multi-class logarithmic loss algorithm.
+The goal of the competition is to predict mobile behaviour based upon app usage, phone brand and location information. As an abstraction upon this, the goal is to accurately predict to which gender and age group the owner of a mobile device belongs. The predictions are accepted as twelve categories: six age groups for each gender. Submissions to the competition are evaluated and ranked using the multi-class logarithmic loss metric.
 \subsubsection{Data set}
-The data set is hosted on Kaggle and consists of eight csv files totalling 1.2 GB. In order to generate a single data set these files were merged based on the device ID, which generated a data set of 4.2 GB. This data was fairly sparse, as many devices only had a few associated events, while others ranged in the thousands. This was true also for the phone brand types with some phones appearing only a few times while others had quite the market share. 
+The data set is hosted on Kaggle and consists of eight csv files totalling 1.2 GB. In order to generate a single data set these files were merged based on the device ID, which generated a data set of 4.2 GB. The data was fairly sparse, as many devices only had a few associated events, while others had up to thousands. This was true also for the phone brand types with some phones appearing only a few times while others had a much larger market share. 
 
 \section{Approach}
 \subsubsection{Pre-Processing}
-The pre-processing step was the most tedious phase. After merging the .csv files together the data was still incredibly sparse: over 2/3rds of all devices had no events linked to them. Prediction priority was given to the device properties and the installed applications.
+The pre-processing step was arguably the most important phase in this competition. After merging the csv files, the data was still incredibly sparse: over two-thirds of all devices had no events linked to them. Prediction was prioritized based on the device properties and the installed applications.
 \subsubsection{Feature Extraction}
 All features present in the data set were aggregated into feature vectors based on the age/gender group. Additionally, some features were created by looking at what day of the week certain something was used. Using a clever One-hot-encoding, sparse matrices, and the pickle library present in Python. 
 \subsection{Classifiers}
-Initially a single pipeline using Random Forests was created, before being extended with other classification algorithms. 
+Initially a single pipeline was created using Random Forests, before being extended with other classification algorithms. As nearly all implementation followed the Scikit-learn API, the pipeline was easily extendable.
 \subsubsection{Random Forests}
-To establish a baseline for a Random Forest Classifier from the Scikit-learn package was implemented, as it was presumed that it could serve as a starting point for more complex models. After scoring even worse than the benchmark submission of each class having an equal percentage it was quickly made clear that the sparse nature of the data was something that worked against the trees.
+To establish a baseline, the Random Forest Classifier from the Scikit-learn package was used. As initial testing with Random Forests yielded a score below that of the benchmark submission, further analysis using Random Forests was abandoned early on.
 \subsubsection{Logistic Regression}
-Unexpectedly good performance came from the Logistic Regression classifier. The best working solver for the large sparse data set was Limited-memory BFGS. 
+The Logistic Regression classifier from the Scikit-learn package in Python was used for classification. This provided quite decent results, especially when compared to other submissions on Kaggle. The best working solver for the large sparse data set was Limited-memory BFGS. 
 \subsubsection{XGBoost}
-Extreme Gradiant Boosting~\cite{CT2015} was used to much better effect than Random Forests. While computational intense, and harder to implement well, it was well suited for the problem. \medskip
+Extreme Gradient Boosting~\cite{CT2015} was a more novel method used in classification. While computational intense, and harder to use, it was well suited for the problem. \medskip
 \subsubsection{Deep Learning/Neural networks}
-With the use of Keras, a library for Theano and Tensorflow, a neural network model was made. The network consists of several dense layers, dropout layers, and layers that use Parametric Rectified Linear Unit (PReLU) \cite{PReLU}. 
+With the use of Keras, a Neural Network library with a Tensorflow back-end, a neural network model was made. The network consists of several dense layers, dropout layers, and layers that use the well known Parametric Rectified Linear Unit (PReLU) \cite{PReLU}. 
 
 
 \section{Results}
@@ -80,24 +80,24 @@ The results of the classifiers are displayed in the following table.
 \end{center}
 
 \section{Discussion}
-The neural network outperformed the other classifiers well, but the relative simple logistic regression model did come extremely close. This is still better than over 60\% of the submissions. 
+The neural network outperformed the other classifiers by a small margin, but the relatively simple logistic regression model did come extremely close. This is still better than over 60\% of the submissions. 
 
 \section{Other ideas}
-The main vector for improvement seems to be the pre-processing and the selection of features because a large amount of work was already done with optimizing the pipeline without significantly impacting the score in a positive way.
+The main focus point for improvement seems to be the pre-processing and the selection of features. A large amount of optimization of the classification was done, without impacting the score much.
 
-A number of concepts were considered but not explored. A lot information could have come from mapping users to urban areas or specific cities. Additionally, many more features could have been involved that involve distance, density or time. It was not allowed to enrich the data with outside data.
+A number of concepts for features were considered but not explored. Perhaps classification can be improved by mapping users to urban areas or specific cities. Additionally, many more features could have been involved that involve distance, density or time. Sadly, the contest did not allow for data enrichment with data outside of the competition.
 
 \section{Individual Contributions}
-By alphanummeric ordering:
+By alphanumeric ordering:
 \begin{itemize}
 \item Jordi Beernink: \textit{Project leader, Pre-processing, XGBoost implementation}
-\item Roel Bouman: \textit{Classification Pipeline and RF implementation}
+\item Roel Bouman: \textit{Classification Pipeline, Random Forests and Logistic Regression}
 \item Jeffrey Luppes: \textit{XGBoost implementation, Report writing}
 \item Gerdriaan Mulder: \textit{Pre-processing, installation on the lilo servers}
 \item Thijs Werrij - \textit{Deep Learning}
 \end{itemize}
 \subsection{Github Repository}
-All code accompanying this report may be retrieved from \url{https://github.com/RoelBouman/Classified/tree/first_competition} where it has been bundled as a release. The README on that page alsohas extensive material on how to run the code on the lilo.science.ru.nl servers where it has been prepared for a demo. 
+All code accompanying this report may be retrieved from \url{https://github.com/RoelBouman/Classified/tree/first_competition} where it has been bundled as a release. The README on that page also has extensive material on how to run the code on the lilo.science.ru.nl servers where it has been prepared for a demo. 
 
 \bibliography{mybib}{}
 \bibliographystyle{plain}
