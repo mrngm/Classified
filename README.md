@@ -50,6 +50,13 @@ stukje preprocessing toegevoegd), dan zorg ik ervoor dat in mijn lokale kopie,
 `master` weer up-to-date is (zie stap 1). Daarna volgt uiteraard stap 3 en de
 rest.
 
+Om de zoveel tijd kan het handig zijn om de *remote* branches die nog lokaal
+staan te verwijderen. Dat kan met `git remote prune origin`. Branches die je
+zelf hebt aangemaakt kan je verwijderen met `git branch -d <branchnaam>`. Je
+kan hier een melding krijgen dat deze branch nog niet gemerged is. Mocht je
+zeker weten dat dit wel gebeurd is (of het boeit je niet) dan kan je met
+`git branch -D <branchnaam>` 'm alsnog verwijderen.
+
 ### Forks
 
 Forks werken vergelijkbaar met branches. Het verschil is dat je over je fork
