@@ -41,7 +41,7 @@ plt.plot(trainset['full_sq'], trainset['price_doc'], "o",
 plt.show()
 ```
 
-![alt text](full_sq_all.png "full_sq with outlier")
+![alt text](images/full_sq_all.png "full_sq with outlier")
 
 Filter out the outlier and plot new dataset:
 
@@ -53,7 +53,7 @@ sns.jointplot(x="full_sq", y="price_doc", data=filtered,
               color="g", size=8, s=10)
 ```
 
-![alt text](full_sq_filtered.png "full_sq without outlier")
+![alt text](images/full_sq_filtered.png "full_sq without outlier")
 
 ## life_sq
 
@@ -66,7 +66,7 @@ plt.plot(trainset['life_sq'], trainset['price_doc'], "o",
 plt.show()
 ```
 
-![alt text](life_sq_all.png "life_sq with outlier")
+![alt text](images/life_sq_all.png "life_sq with outlier")
 
 Filter out the outlier and plot new dataset:
 
@@ -78,7 +78,7 @@ sns.jointplot(x="life_sq", y="price_doc", data=filtered,
               color="g", size=8, s=10)
 ```
 
-![alt text](life_sq_filtered.png "life_sq without outlier")
+![alt text](images/life_sq_filtered.png "life_sq without outlier")
 
 ## num_room
 
@@ -88,7 +88,7 @@ _num_room: number of living rooms_
 sns.countplot(x="num_room", data=trainset)
 ```
 
-![alt text](num_room.png "num_room")
+![alt text](images/num_room.png "num_room")
 
 2 and 1 floors have the highest values, followed by 3. All other values are much lower.
 
@@ -132,6 +132,6 @@ sns.jointplot(x="build_year", y="price_doc", data=filtered,
               color="g", size=8, s=10)
 ```
 
-![alt text](build_year.png "build_year without outliers")
+![alt text](images/build_year.png "build_year without outliers")
 
 Most buildings in the set are built after 1950, and there are more expensive buildings after 2000.
