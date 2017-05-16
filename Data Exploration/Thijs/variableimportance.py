@@ -46,6 +46,19 @@ sns.jointplot(x="life_sq", y="price_doc", data=filtered,
 
 sns.countplot(x="num_room", data=trainset)
 
+#%% kitch_sq
+
+plt.figure()
+plt.plot(trainset['kitch_sq'], trainset['price_doc'], "o",
+         color="g", ms=5)
+plt.show()
+
+# Get closeup of data
+filtered = trainset[trainset['kitch_sq'] < 500]
+
+sns.jointplot(x="kitch_sq", y="price_doc", data=filtered,
+              color="g", size=8, s=10)
+
 #%% build_year
 
 buildyears = np.sort(trainset.build_year.unique()).astype(int)

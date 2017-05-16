@@ -55,6 +55,8 @@ sns.jointplot(x="full_sq", y="price_doc", data=filtered,
 
 ![alt text](images/full_sq_filtered.png "full_sq without outlier")
 
+Most houses are around 50 square meters, and go up to 100, with some houses going up to 200 or more.
+
 ## life_sq
 
 _life_sq: living area in square meters, excluding loggias, balconies and other non-residential areas_
@@ -80,6 +82,8 @@ sns.jointplot(x="life_sq", y="price_doc", data=filtered,
 
 ![alt text](images/life_sq_filtered.png "life_sq without outlier")
 
+Same as with full_sq, life_sq has most points centered around 50-100 square meters.
+
 ## num_room
 
 _num_room: number of living rooms_
@@ -90,7 +94,34 @@ sns.countplot(x="num_room", data=trainset)
 
 ![alt text](images/num_room.png "num_room")
 
-2 and 1 floors have the highest values, followed by 3. All other values are much lower.
+2 and 1 floors are most frequent, followed by 3. All other values are much lower.
+
+## kitch_sq
+
+_kitch_sq: kitchen area_
+
+```
+plt.figure()
+plt.plot(trainset['kitch_sq'], trainset['price_doc'], "o",
+         color="g", ms=5)
+plt.show()
+```
+
+![alt text](images/kitch_sq_all.png "kitch_sq, full data")
+
+Get a closeup of the rest of the data points:
+
+```
+# Get closeup of data
+filtered = trainset[trainset['kitch_sq'] < 500]
+
+sns.jointplot(x="kitch_sq", y="price_doc", data=filtered,
+              color="g", size=8, s=10)
+```
+
+![alt text](images/kitch_sq_filtered.png "kitch_sq without outlier")
+
+Most kitchens in the set aren't larger than 20 square meters.
 
 ## build_year
 
@@ -119,7 +150,7 @@ These are the unique values found in build_year (as integers):
         2016        2017        2018        4965    20052009 -2147483648]
 ```
 
-There are some weird values here, like all years before 1691 and all values after 2018 (the last number is NaN as integer). Filter and plot them:
+There are some weird values here, like all years before 1000 (Moscow wasn't founded until around the 14th century), all values after 2018 (2018 seems reasonable as a future building project), and NaN. Filter and plot the remaining values:
 
 ```
 # Remove outliers
@@ -134,4 +165,4 @@ sns.jointplot(x="build_year", y="price_doc", data=filtered,
 
 ![alt text](images/build_year.png "build_year without outliers")
 
-Most buildings in the set are built after 1950, and there are more expensive buildings after 2000.
+Most buildings in the set are built after 1950, and more expensive buildings appear after 2000.
