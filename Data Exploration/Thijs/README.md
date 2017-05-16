@@ -1,34 +1,51 @@
 # Data exploration
 
-Variable importance of the dataset, as shown [here](https://www.kaggle.io/svf/1146201/177cd62d6ec42abfe3d9b2740cbe5632/__results__.html#importance) (had problems running xgboost, so couldn't recreate it):
+Feature importance code, as shown [here](https://www.kaggle.com/sudalairajkumar/simple-exploration-notebook-sberbank) (with minor edits):
 
 ```
-## rf variable importance
-## 
-##   only 20 most important variables shown (out of 435)
-## 
-##                             Overall
-## full_sq                      100.00
-## life_sq                       81.72
-## num_room                      74.27
-## kitch_sq                      62.34
-## build_year                    59.64
-## max_floor                     50.68
-## product_typeOwnerOccupier     38.57
-## state                         37.34
-## office_sqm_1500               34.63
-## mosque_km                     33.02
-## museum_km                     32.84
-## green_part_1000               32.38
-## railroad_station_avto_min     31.88
-## detention_facility_km         31.72
-## office_km                     31.27
-## cafe_sum_1500_max_price_avg   30.85
-## metro_min_avto                30.71
-## sport_count_1500              30.69
-## university_km                 30.24
-## cafe_avg_price_1000           30.12
+#%% XGBoost Variable Importance
+
+train_df = trainset
+
+for f in train_df.columns:
+    if train_df[f].dtype=='object':
+        lbl = preprocessing.LabelEncoder()
+        lbl.fit(list(train_df[f].values)) 
+        train_df[f] = lbl.transform(list(train_df[f].values))
+        
+train_y = train_df.price_doc.values
+train_X = train_df.drop(["id", "timestamp", "price_doc"], axis=1)
+
+xgb_params = {
+    'eta': 0.05,
+    'max_depth': 8,
+    'subsample': 0.7,
+    'colsample_bytree': 0.7,
+    'objective': 'reg:linear',
+    'eval_metric': 'rmse',
+    'silent': 1
+}
+dtrain = xgb.DMatrix(train_X, train_y, feature_names=train_X.columns.values)
+model = xgb.train(dict(xgb_params, silent=0), dtrain, num_boost_round=100)
+
+#%% Feature Importance list and plot
+
+sorted_scores = sorted(model.get_score().items(), key=operator.itemgetter(1), reverse=True)
+
+for i in range(0,20):
+    print (str(i+1) + ". " + str(sorted_scores[i][0]) + ": " + str(sorted_scores[i][1]))
+
+# plot the important features #
+fig, ax = plt.subplots()
+xgb.plot_importance(model, max_num_features=20, height=0.8, ax=ax)
+plt.show()
 ```
+
+This returns a list and a plot (plot shown below).
+
+![alt text](images/feature_importance.png "Feature importance")
+
+I'll take a closer look at the features that have the highest importance in this list.
 
 ## full_sq
 
@@ -94,7 +111,7 @@ sns.countplot(x="num_room", data=trainset)
 
 ![alt text](images/num_room.png "num_room")
 
-2 and 1 floors are most frequent, followed by 3. All other values are much lower.
+2 and 1 living rooms are most frequent, followed by 3. All other values are much lower.
 
 ## kitch_sq
 
@@ -109,10 +126,10 @@ plt.show()
 
 ![alt text](images/kitch_sq_all.png "kitch_sq, full data")
 
-Get a closeup of the rest of the data points:
+Get a close-up of the rest of the data points:
 
 ```
-# Get closeup of data
+# Get close-up of data
 filtered = trainset[trainset['kitch_sq'] < 500]
 
 sns.jointplot(x="kitch_sq", y="price_doc", data=filtered,
@@ -165,4 +182,4 @@ sns.jointplot(x="build_year", y="price_doc", data=filtered,
 
 ![alt text](images/build_year.png "build_year without outliers")
 
-Most buildings in the set are built after 1950, and more expensive buildings appear after 2000.
+Most buildings in the set are built after 1950, and more expensive buildings appear more frequently after 2000.

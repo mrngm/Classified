@@ -5,16 +5,58 @@ Created on Fri May 12 12:59:29 2017
 @author: Thijs
 """
 
-#%% Libraries and files
+#%% Libraries
 
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
+import xgboost as xgb
+from sklearn import preprocessing
+import operator
 
 np.set_printoptions(threshold=np.inf)
 
+#%% Files
+
 trainset = pd.read_csv('input/train.csv')
+
+#%% XGBoost Feature Importance
+
+train_df = trainset
+
+for f in train_df.columns:
+    if train_df[f].dtype=='object':
+        lbl = preprocessing.LabelEncoder()
+        lbl.fit(list(train_df[f].values)) 
+        train_df[f] = lbl.transform(list(train_df[f].values))
+        
+train_y = train_df.price_doc.values
+train_X = train_df.drop(["id", "timestamp", "price_doc"], axis=1)
+
+xgb_params = {
+    'eta': 0.05,
+    'max_depth': 8,
+    'subsample': 0.7,
+    'colsample_bytree': 0.7,
+    'objective': 'reg:linear',
+    'eval_metric': 'rmse',
+    'silent': 1
+}
+dtrain = xgb.DMatrix(train_X, train_y, feature_names=train_X.columns.values)
+model = xgb.train(dict(xgb_params, silent=0), dtrain, num_boost_round=100)
+
+#%% Feature Importance list and plot
+
+sorted_scores = sorted(model.get_score().items(), key=operator.itemgetter(1), reverse=True)
+
+for i in range(0,20):
+    print (str(i+1) + ". " + str(sorted_scores[i][0]) + ": " + str(sorted_scores[i][1]))
+
+# plot the important features #
+fig, ax = plt.subplots()
+xgb.plot_importance(model, max_num_features=20, height=0.8, ax=ax)
+plt.show()
 
 #%% full_sq
 
@@ -53,7 +95,7 @@ plt.plot(trainset['kitch_sq'], trainset['price_doc'], "o",
          color="g", ms=5)
 plt.show()
 
-# Get closeup of data
+# Get close-up of data
 filtered = trainset[trainset['kitch_sq'] < 500]
 
 sns.jointplot(x="kitch_sq", y="price_doc", data=filtered,
@@ -72,3 +114,7 @@ filtered = filtered[(filtered.build_year > 1600)
 
 sns.jointplot(x="build_year", y="price_doc", data=filtered,
               color="g", size=8, s=10)
+
+#%% max_floor
+
+sns.countplot(x="max_floor", data=trainset)
