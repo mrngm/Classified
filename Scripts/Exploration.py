@@ -13,6 +13,7 @@ from sklearn import model_selection, preprocessing
 import xgboost as xgb
 color = sns.color_palette()
 import datetime
+import matplotlib.dates as mdates
 
 %matplotlib inline
 
@@ -25,14 +26,24 @@ train_df = pd.read_csv("D:/School/School/Master/Jaar_1/Machine Learning in Pract
 train_df.shape
 print 'head Train database'
 train_df.head()
-
 #%% Importing Macro
 print 'importing Macro'
 macro_df = pd.read_csv("D:/School/School/Master/Jaar_1/Machine Learning in Practice/2nd Competition/Data/macro.csv")
 macro_df.shape
 print 'head Macro database'
 macro_df.head()
+#%% Joining
 
+print "Joining information"
+
+house_market_df = pd.merge(left=train_df,right=macro_df, how='left', left_on='timestamp', right_on='timestamp')
+print "Data structure"
+house_market_df.head()
+house_market_df.shape
+house_market_df.columns
+
+#%% First ten rows
+house_market_df.head(10)
 #%%
 train_df.shape
 #%%
@@ -74,6 +85,71 @@ plt.ylabel('Median Price', fontsize=12)
 plt.xlabel('Year Month', fontsize=12)
 plt.xticks(rotation='vertical')
 plt.show()
+
+print 'Minimum Area House Price'
+
+grouped_df = train_df.groupby('sub_area')['price_doc'].aggregate(np.max).reset_index()
+grouped_df = grouped_df.sort(['price_doc']).reset_index(drop=True)
+plt.figure(figsize=(25,8))
+sns.barplot(grouped_df.sub_area.values, grouped_df.price_doc.values, alpha=0.8, color=color[2])
+plt.ylabel('Maximum Price', fontsize=12)
+plt.xlabel('Sub_Area', fontsize=12)
+plt.xticks(rotation='vertical')
+plt.show()
+
+print 'Median Build Year House Price'
+
+groeped_df = train_df.groupby('build_year')['price_doc'].aggregate(np.median).reset_index()
+groeped_df = groeped_df.sort(['price_doc']).reset_index(drop=True)
+plt.figure(figsize=(25,8))
+sns.barplot(groeped_df.build_year.values, groeped_df.price_doc.values, alpha=0.8, color=color[2])
+plt.ylabel('Median Price', fontsize=12)
+plt.xlabel('Build Year', fontsize=12)
+plt.xticks(rotation='vertical')
+plt.show()
+
+print 'Median Build Year Full SQ'
+house_market_df['price_per_sqm']=house_market_df['price_doc']/house_market_df['full_sq']
+groeped_df = house_market_df.groupby('sub_area')['price_per_sqm'].aggregate(np.median).reset_index()
+groeped_df = groeped_df.sort(['price_per_sqm']).reset_index(drop=True)
+plt.figure(figsize=(25,8))
+sns.barplot(groeped_df.sub_area.values, groeped_df.price_per_sqm.values, alpha=0.8, color=color[2])
+plt.ylabel('Median Price Per SQM', fontsize=12)
+plt.xlabel('Area', fontsize=12)
+plt.xticks(rotation='vertical')
+plt.show()
+
+print 'Median Full Square per region'
+
+groeped_df = train_df.groupby('sub_area')['full_sq'].aggregate(np.median).reset_index()
+groeped_df = groeped_df.sort(['full_sq']).reset_index(drop=True)
+plt.figure(figsize=(25,8))
+sns.barplot(groeped_df.sub_area.values, groeped_df.full_sq.values, alpha=0.8, color=color[2])
+plt.ylabel('Median Space', fontsize=12)
+plt.xlabel('Area', fontsize=12)
+plt.xticks(rotation='vertical')
+plt.show()
+
+print 'Apartment Prices'
+
+groeped_df = house_market_df.groupby('apartment_build')['price_doc'].aggregate(np.median).reset_index()
+groeped_df = groeped_df.sort(['price_doc']).reset_index(drop=True)
+plt.figure(figsize=(25,8))
+sns.barplot(groeped_df.apartment_build.values, groeped_df.price_doc.values, alpha=0.8, color=color[2])
+plt.ylabel('Median prices', fontsize=12)
+plt.xlabel('Aparment', fontsize=12)
+plt.xticks(rotation='vertical')
+plt.show()
+
+groeped_df = train_df.groupby('ecology')['price_doc'].aggregate(np.max).reset_index()
+groeped_df = groeped_df.sort(['price_doc']).reset_index(drop=True)
+plt.figure(figsize=(25,8))
+sns.barplot(groeped_df.ecology.values, groeped_df.price_doc.values, alpha=0.8, color=color[2])
+plt.ylabel('Max Price', fontsize=12)
+plt.xlabel('Ecology', fontsize=12)
+plt.xticks(rotation='vertical')
+plt.show()
+
 #%% Property Information
 print 'Property information'
 
@@ -143,7 +219,28 @@ def corr_plot(dataframe, top_n, target, fig_x, fig_y):
 corr_20 = corr_plot(train_df, 20, 'price_doc', 10,10)
 
 sns.heatmap(train_df[["full_sq", "life_sq", "num_room", "price_doc"]].corr())
+#%%
+print 'Macro heatmap'
+macro_columns = macro_df.columns
+corr_df=pd.DataFrame(columns=['feature','pearson', 'kendall', 'spearman'])
+corr=macro_df[macro_columns].corr(method='spearman')
+fig, ax = plt.subplots(figsize=(50,50))         # Sample figsize in inches
+sns.heatmap(corr, annot=True, linewidths=.5, ax=ax)
 
+#%%
+print 'Training heatmap'
+train_columns = train_df.columns
+corr_df=pd.DataFrame(columns=['feature','pearson', 'kendall', 'spearman'])
+corr=train_df[train_columns].corr(method='spearman')
+fig, ax = plt.subplots(figsize=(150,150))         # Sample figsize in inches
+sns.heatmap(corr, annot=True, linewidths=.5, ax=ax)
+
+print 'Housemarket heatmap'
+house_market_columns = house_market_df.columns
+corr_df=pd.DataFrame(columns=['feature','pearson', 'kendall', 'spearman'])
+corr=house_market_df[house_market_columns].corr(method='spearman')
+fig, ax = plt.subplots(figsize=(50,50))         # Sample figsize in inches
+sns.heatmap(corr, annot=True, linewidths=.5, ax=ax)
 #%% Missing data in Train data
 
 print 'Importing'
@@ -341,18 +438,7 @@ plt.xlabel('Max Floor number', fontsize=12)
 plt.xticks(rotation='vertical')
 plt.show()
 
-#%% Joining
 
-print "Joining information"
-
-house_market_df = pd.merge(left=train_df,right=macro_df, how='left', left_on='timestamp', right_on='timestamp')
-print "Data structure"
-house_market_df.head()
-house_market_df.shape
-house_market_df.columns
-
-#%% First ten rows
-house_market_df.head(10)
 #%% Missing values
 
 ktype_df = house_market_df.dtypes.reset_index()
@@ -432,40 +518,68 @@ LP = train_df.groupby(['sub_area', 'price_doc']).size()
 LP = LP.unstack()
 LP = LP.fillna(0)
 LP_Norm = LP.div(LP.sum(axis=1), axis=0)
+LP_stand = (LP - LP.mean()) / (LP.max() - LP.min())
 
 print 'Build Year - Area'
 BYA = train_df.groupby(['sub_area', 'build_year']).size()
 BYA = BYA.unstack()
 BYA = BYA.fillna(0)
 BYA_Norm = BYA.div(BYA.sum(axis=1), axis=0)
+BYA_stand = (BYA - BYA.mean()) / (BYA.max() - BYA.min())
 
 print 'Product Type - Area'
 PTP = train_df.groupby(['sub_area', 'product_type']).size()
 PTP = PTP.unstack()
 PTP = PTP.fillna(0)
 PTP_Norm = PTP.div(PTP.sum(axis=1), axis=0)
+PTP_stand = (PTP - PTP.mean()) / (PTP.max() - PTP.min())
+
+print 'Product Type - Prices'
+PCP = train_df.groupby(['price_doc', 'product_type']).size()
+PCP = PCP.unstack()
+PCP = PCP.fillna(0)
+PCP_Norm = PCP.div(PCP.sum(axis=1), axis=0)
+PCP_stand = (PCP - PCP.mean()) / (PCP.max() - PCP.min())
+
 
 print 'Ecology - Area'
 EA = train_df.groupby(['sub_area', 'ecology']).size()
 EA = EA.unstack()
 EA = EA.fillna(0)
 EA_Norm = EA.div(EA.sum(axis=1), axis=0)
+EA_stand = (EA - EA.mean()) / (EA.max() - EA.min())
 
 print 'Ecology - Prices'
 EP = train_df.groupby(['price_doc', 'ecology']).size()
 EP = EP.unstack()
 EP = EP.fillna(0)
 EP_Norm = EP.div(EP.sum(axis=1), axis=0)
+EP_stand = (EP - EP.mean()) / (EP.max() - EP.min())
 
 print 'Number of rooms - Prices'
 NRP = train_df.groupby(['num_room', 'price_doc']).size()
 NRP = NRP.unstack()
 NRP = NRP.fillna(0)
 NRP_Norm = NRP.div(NRP.sum(axis=1), axis=0)
+NRP_stand = (NRP - NRP.mean) / (NRP.max() - NRP.min())
 
 print 'Build year - Timestamp'
 TBY = train_df.groupby(['timestamp', 'build_year']).size()
 TBY = TBY.unstack()
 TBY = TBY.fillna(0)
 TBY_Norm = TBY.div(TBY.sum(axis=1), axis=0)
-Hi
+TBY_stand = (TBY - TBY.mean()) / (TBY.max() - TBY.min())
+
+print 'Build year - Build Materia'
+RBC = train_df.groupby(['raion_build_count_with_material_info', 'build_year']).size()
+RBC = RBC.unstack()
+RBC = RBC.fillna(0)
+RBC_Norm = RBC.div(RBC.sum(axis=1), axis=0)
+RBC_stand = (RBC - RBC.mean()) / (RBC.max() - RBC.min())
+
+print 'Appartment in area'
+SAAB = house_market_df.groupby(['sub_area', 'apartment_build']).size()
+SAAB = SAAB.unstack()
+SAAB = SAAB.fillna(0)
+SAAB_Norm = SAAB.div(SAAB.sum(axis=1), axis=0)
+SAAB_stand = (SAAB - SAAB.mean()) / (SAAB.max() - SAAB.min())
