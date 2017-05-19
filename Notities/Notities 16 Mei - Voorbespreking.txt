@@ -1,0 +1,56 @@
+-----------------------
+Notities
+-----------------------
+
+-----------------------
+Algemeen
+-----------------------
+- Github repository doorgelezen?
+- Data exploration
+	- Interessante ontdekkingen
+- Trendontwikkelingen
+
+Dataset - Knelpunten|Interessante punten
+- XGBoost Thijs regelen
+- Bouwjaren
+- Relatief weinig uitschieters
+- Missende sub-areas?
+- Verschillen training en test
+	- Missende instanties verschillen per dataset
+
+----------------
+Volgende stappen
+-----------------
+- Missing data invullen
+- Data exploration
+- Eerste activiteiten uitvoeren
+- Preprocessing activiteiten uitvoeren
+- Methodes selecteren
+ 
+
+----------------
+Deadline
+----------------
+Flashtalk
+- 1 June
+------------------
+Coach
+------------------
+Organisatorische/Ondersteuning
+
+--------------------
+Rolverdeling
+--------------------
+Jordi 	- 	Coordinator|Communicator|Leader
+Roel 	-	Coordinator
+
+-------------------
+Taakverdeling
+------------------
+Team - Data exploratie
+
+-------------------
+Contacteren
+-------------------
+Jacopo Acquirelli = Deep Learning
+Gido Schoenmacker = Overall methode
