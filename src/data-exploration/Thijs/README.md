@@ -1,6 +1,7 @@
 # Data exploration
 
-Feature importance code, as shown [here](https://www.kaggle.com/sudalairajkumar/simple-exploration-notebook-sberbank) (with minor edits):
+<details>
+<summary>Feature importance code, as shown [here](https://www.kaggle.com/sudalairajkumar/simple-exploration-notebook-sberbank) (with minor edits)</summary>
 
 ```
 #%% XGBoost Variable Importance
@@ -41,6 +42,8 @@ xgb.plot_importance(model, max_num_features=20, height=0.8, ax=ax)
 plt.show()
 ```
 
+</details>
+
 This returns a list and a plot (plot shown below).
 
 ![alt text](images/feature_importance.png "Feature importance")
@@ -50,6 +53,9 @@ I'll take a closer look at the features that have the highest importance in this
 ## full_sq
 
 _full_sq: total area in square meters, including loggias, balconies and other non-residential areas._
+
+<details>
+<summary>Code</summary>
 
 ```
 plt.figure()
@@ -70,6 +76,8 @@ sns.jointplot(x="full_sq", y="price_doc", data=filtered,
               color="g", size=8, s=10)
 ```
 
+</details>
+
 ![alt text](images/full_sq_filtered.png "full_sq without outlier")
 
 Most houses are around 50 square meters, and go up to 100, with some houses going up to 200 or more.
@@ -77,6 +85,9 @@ Most houses are around 50 square meters, and go up to 100, with some houses goin
 ## life_sq
 
 _life_sq: living area in square meters, excluding loggias, balconies and other non-residential areas_
+
+<details>
+<summary>Code</summary>
 
 ```
 plt.figure()
@@ -96,6 +107,8 @@ filtered = trainset[trainset['life_sq'] < 7000]
 sns.jointplot(x="life_sq", y="price_doc", data=filtered,
               color="g", size=8, s=10)
 ```
+
+</details>
 
 ![alt text](images/life_sq_filtered.png "life_sq without outlier")
 
@@ -117,6 +130,9 @@ sns.countplot(x="num_room", data=trainset)
 
 _kitch_sq: kitchen area_
 
+<details>
+<summary>Code</summary>
+
 ```
 plt.figure()
 plt.plot(trainset['kitch_sq'], trainset['price_doc'], "o",
@@ -135,6 +151,8 @@ filtered = trainset[trainset['kitch_sq'] < 500]
 sns.jointplot(x="kitch_sq", y="price_doc", data=filtered,
               color="g", size=8, s=10)
 ```
+
+</details>
 
 ![alt text](images/kitch_sq_filtered.png "kitch_sq without outlier")
 
@@ -183,8 +201,3 @@ sns.jointplot(x="build_year", y="price_doc", data=filtered,
 ![alt text](images/build_year.png "build_year without outliers")
 
 Most buildings in the set are built after 1950, and more expensive buildings appear more frequently after 2000.
-
-<details>
-<summary>Collapse test</summary>
-More text
-</details>
