@@ -183,3 +183,8 @@ sns.jointplot(x="build_year", y="price_doc", data=filtered,
 ![alt text](images/build_year.png "build_year without outliers")
 
 Most buildings in the set are built after 1950, and more expensive buildings appear more frequently after 2000.
+
+<details>
+<summary>Collapse test</summary>
+More text
+</details>

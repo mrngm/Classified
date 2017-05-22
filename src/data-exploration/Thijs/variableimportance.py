@@ -11,15 +11,29 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
-import xgboost as xgb
 from sklearn import preprocessing
 import operator
+#import xgboost as xgb
 
 np.set_printoptions(threshold=np.inf)
 
+#%% XGBoost setup
+
+import os
+
+mingw_path = 'C:\\Program Files\\mingw-w64\\x86_64-5.3.0-posix-seh-rt_v4-rev0\\mingw64\\bin'
+
+os.environ['PATH'] = mingw_path + ';' + os.environ['PATH']
+
+import xgboost as xgb
+
 #%% Files
 
-trainset = pd.read_csv('input/train.csv')
+DATADIR = '../../../data/'
+
+trainfile = DATADIR + 'train.csv'
+
+trainset = pd.read_csv(trainfile)
 
 #%% XGBoost Feature Importance
 
