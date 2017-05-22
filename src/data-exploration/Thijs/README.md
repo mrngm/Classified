@@ -1,7 +1,12 @@
 # Data exploration
 
+
+## Feature importance
+
+Feature importance code, as shown [here](https://www.kaggle.com/sudalairajkumar/simple-exploration-notebook-sberbank) (with minor edits)
+
 <details>
-<summary>Feature importance code, as shown [here](https://www.kaggle.com/sudalairajkumar/simple-exploration-notebook-sberbank) (with minor edits)</summary>
+<summary>Code</summary>
 
 ```
 #%% XGBoost Variable Importance
@@ -50,12 +55,13 @@ This returns a list and a plot (plot shown below).
 
 I'll take a closer look at the features that have the highest importance in this list.
 
-## full_sq
+### full_sq
 
 _full_sq: total area in square meters, including loggias, balconies and other non-residential areas._
 
 <details>
-<summary>Code</summary>
+<summary>Code and filtering</summary>
+
 
 ```
 plt.figure()
@@ -82,12 +88,13 @@ sns.jointplot(x="full_sq", y="price_doc", data=filtered,
 
 Most houses are around 50 square meters, and go up to 100, with some houses going up to 200 or more.
 
-## life_sq
+### life_sq
 
 _life_sq: living area in square meters, excluding loggias, balconies and other non-residential areas_
 
 <details>
-<summary>Code</summary>
+<summary>Code and filtering</summary>
+
 
 ```
 plt.figure()
@@ -114,7 +121,7 @@ sns.jointplot(x="life_sq", y="price_doc", data=filtered,
 
 Same as with full_sq, life_sq has most points centered around 50-100 square meters.
 
-## num_room
+### num_room
 
 _num_room: number of living rooms_
 
@@ -126,12 +133,13 @@ sns.countplot(x="num_room", data=trainset)
 
 2 and 1 living rooms are most frequent, followed by 3. All other values are much lower.
 
-## kitch_sq
+### kitch_sq
 
 _kitch_sq: kitchen area_
 
 <details>
-<summary>Code</summary>
+<summary>Code and filtering</summary>
+
 
 ```
 plt.figure()
@@ -158,7 +166,7 @@ sns.jointplot(x="kitch_sq", y="price_doc", data=filtered,
 
 Most kitchens in the set aren't larger than 20 square meters.
 
-## build_year
+### build_year
 
 These are the unique values found in build_year (as integers):
 
@@ -201,3 +209,42 @@ sns.jointplot(x="build_year", y="price_doc", data=filtered,
 ![alt text](images/build_year.png "build_year without outliers")
 
 Most buildings in the set are built after 1950, and more expensive buildings appear more frequently after 2000.
+
+## Timestamps
+
+Let's take a look at the timestamps.
+
+```
+#%% Preparing data
+
+trainset['year'] = trainset['timestamp'].apply(lambda x: x[:4])
+trainset['monthyear'] = trainset['timestamp'].apply(lambda x: x[5:7] + "-" + x[:4])
+
+#%% Counting the amount of entries by timestamp
+plt.figure()
+sns.countplot(x="year", data=trainset)
+
+plt.figure(figsize=(12,8))
+sns.countplot(x="monthyear", data=trainset)
+plt.xticks(rotation='vertical')
+```
+
+This creates two images:
+
+![alt text](images/timestamp-year.png "timestamp year")
+
+![alt text](images/timestamp-month-year.png "timestamp year-month")
+
+Nothing very remarkable about these images: a lot of the data comes from 2014, but this doesn't really tell us much. Let's take a look at how it influences the (median) price:
+
+```
+#%% Timestamps with median price
+
+medianprice = trainset.groupby('yearmonth')['price_doc'].aggregate(np.median).reset_index().sort("yearmonth")
+
+plt.figure(figsize=(12,8))
+sns.barplot(x="yearmonth", y="price_doc", data=medianprice)
+plt.xticks(rotation='vertical')
+```
+
+![alt text](images/timestamp-medianprice.png "median price per year-month")

@@ -36,6 +36,7 @@ trainfile = DATADIR + 'train.csv'
 trainset = pd.read_csv(trainfile)
 
 #%% XGBoost Feature Importance
+# source: https://www.kaggle.com/sudalairajkumar/simple-exploration-notebook-sberbank
 
 train_df = trainset
 
