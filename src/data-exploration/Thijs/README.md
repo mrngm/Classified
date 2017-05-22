@@ -233,7 +233,7 @@ This creates two images:
 
 ![alt text](images/timestamp-year.png "timestamp year")
 
-![alt text](images/timestamp-month-year.png "timestamp year-month")
+![alt text](images/timestamp-yearmonth.png "timestamp year-month")
 
 Nothing very remarkable about these images: a lot of the data comes from 2014, but this doesn't really tell us much. Let's take a look at how it influences the (median) price:
 

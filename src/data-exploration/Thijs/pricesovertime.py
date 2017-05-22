@@ -26,20 +26,21 @@ trainset = pd.read_csv(trainfile)
 
 trainset['year'] = trainset['timestamp'].apply(lambda x: x[:4])
 trainset['month'] = trainset['timestamp'].apply(lambda x: x[5:7])
-trainset['yearmonth'] = trainset['year'] + "-" + trainset['month']
+trainset['year-month'] = trainset['year'] + "-" + trainset['month']
 
 #%% Counting the amount of entries by timestamp
 plt.figure()
 sns.countplot(x="year", data=trainset)
 
 plt.figure(figsize=(12,8))
-sns.countplot(x="yearmonth", data=trainset)
+sns.countplot(x="year-month", data=trainset)
 plt.xticks(rotation='vertical')
 
 #%% Timestamps with median price
 
-medianprice = trainset.groupby('yearmonth')['price_doc'].aggregate(np.median).reset_index().sort("yearmonth")
+medianprice = trainset.groupby('year-month')['price_doc'].aggregate(np.median).reset_index().sort_values("year-month")
 
 plt.figure(figsize=(12,8))
-sns.barplot(x="yearmonth", y="price_doc", data=medianprice)
+sns.barplot(x="year-month", y="price_doc", data=medianprice)
 plt.xticks(rotation='vertical')
+plt.ylabel('Median price')
