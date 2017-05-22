@@ -10,12 +10,13 @@ Created on Fri May 12 12:59:29 2017
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+from matplotlib import axes
 import seaborn as sns
 from sklearn import preprocessing
 import operator
 #import xgboost as xgb
 
-np.set_printoptions(threshold=np.inf)
+np.set_printoptions(threshold=np.inf)               # print entire values
 
 #%% XGBoost setup
 
@@ -59,7 +60,11 @@ xgb_params = {
     'silent': 1
 }
 dtrain = xgb.DMatrix(train_X, train_y, feature_names=train_X.columns.values)
-model = xgb.train(dict(xgb_params, silent=0), dtrain, num_boost_round=100)
+
+try:
+    model
+except NameError:
+    model = xgb.train(dict(xgb_params, silent=0), dtrain, num_boost_round=100)
 
 #%% Feature Importance list and plot
 
@@ -99,22 +104,31 @@ filtered = trainset[trainset['life_sq'] < 7000]
 sns.jointplot(x="life_sq", y="price_doc", data=filtered,
               color="g", size=8, s=10)
 
-#%% num_room
+#%% floor
 
-sns.countplot(x="num_room", data=trainset)
+plt.figure(figsize=(12,8))
+sns.countplot(x="floor", data=trainset)
+plt.xticks(rotation='vertical')
 
-#%% kitch_sq
+floor_medianprice = trainset.groupby('floor')['price_doc'].aggregate(np.median).reset_index()
 
-plt.figure()
-plt.plot(trainset['kitch_sq'], trainset['price_doc'], "o",
-         color="g", ms=5)
-plt.show()
+plt.figure(figsize=(12,8))
+sns.barplot(x="floor", y="price_doc", data=floor_medianprice)
+plt.xticks(rotation='vertical')
+plt.ylabel('Median price')
 
-# Get close-up of data
-filtered = trainset[trainset['kitch_sq'] < 500]
+#%% max_floor
 
-sns.jointplot(x="kitch_sq", y="price_doc", data=filtered,
-              color="g", size=8, s=10)
+plt.figure(figsize=(12,8))
+sns.countplot(x="max_floor", data=trainset)
+plt.xticks(rotation='vertical')
+
+max_floor_medianprice = trainset.groupby('max_floor')['price_doc'].aggregate(np.median).reset_index()
+
+plt.figure(figsize=(12,8))
+sns.barplot(x="max_floor", y="price_doc", data=max_floor_medianprice)
+plt.xticks(rotation='vertical')
+plt.ylabel('Median price')
 
 #%% build_year
 
@@ -130,6 +144,37 @@ filtered = filtered[(filtered.build_year > 1600)
 sns.jointplot(x="build_year", y="price_doc", data=filtered,
               color="g", size=8, s=10)
 
-#%% max_floor
+#%% kitch_sq
 
-sns.countplot(x="max_floor", data=trainset)
+plt.figure()
+plt.plot(trainset['kitch_sq'], trainset['price_doc'], "o",
+         color="g", ms=5)
+plt.show()
+
+# Get close-up of data
+filtered = trainset[trainset['kitch_sq'] < 500]
+
+sns.jointplot(x="kitch_sq", y="price_doc", data=filtered,
+              color="g", size=8, s=10)
+
+#%% state
+
+plt.figure()
+sns.countplot(x="state", data=trainset)
+
+state_medianprice = trainset.groupby('state')['price_doc'].aggregate(np.median).reset_index()
+
+plt.figure()
+sns.barplot(x="state", y="price_doc", data=state_medianprice)
+plt.ylabel('Median price')
+
+#%% num_room
+
+states = np.sort(trainset.state.unique())
+print(states)
+
+num_room_medianprice = trainset.groupby('num_room')['price_doc'].aggregate(np.median).reset_index()
+
+plt.figure()
+sns.barplot(x="num_room", y="price_doc", data=num_room_medianprice)
+plt.ylabel('Median price')

@@ -25,8 +25,7 @@ trainset = pd.read_csv(trainfile)
 #%% Preparing data
 
 trainset['year'] = trainset['timestamp'].apply(lambda x: x[:4])
-trainset['month'] = trainset['timestamp'].apply(lambda x: x[5:7])
-trainset['year-month'] = trainset['year'] + "-" + trainset['month']
+trainset['year-month'] = trainset['timestamp'].apply(lambda x: x[:4] + "-" + x[5:7])
 
 #%% Counting the amount of entries by timestamp
 plt.figure()

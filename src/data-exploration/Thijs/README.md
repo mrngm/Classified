@@ -121,50 +121,59 @@ sns.jointplot(x="life_sq", y="price_doc", data=filtered,
 
 Same as with full_sq, life_sq has most points centered around 50-100 square meters.
 
-### num_room
+### floor
 
-_num_room: number of living rooms_
-
-```
-sns.countplot(x="num_room", data=trainset)
-```
-
-![alt text](images/num_room.png "num_room")
-
-2 and 1 living rooms are most frequent, followed by 3. All other values are much lower.
-
-### kitch_sq
-
-_kitch_sq: kitchen area_
-
-<details>
-<summary>Code and filtering</summary>
-
+_floor: for apartments, floor of the building_
 
 ```
-plt.figure()
-plt.plot(trainset['kitch_sq'], trainset['price_doc'], "o",
-         color="g", ms=5)
-plt.show()
+plt.figure(figsize=(12,8))
+sns.countplot(x="floor", data=trainset)
+plt.xticks(rotation='vertical')
 ```
 
-![alt text](images/kitch_sq_all.png "kitch_sq, full data")
+![alt text](images/floor.png "floor")
 
-Get a close-up of the rest of the data points:
+Most apartments are between 0-10 floors high, something you would expect. Let's look at the median price per floor:
 
 ```
-# Get close-up of data
-filtered = trainset[trainset['kitch_sq'] < 500]
+floor_medianprice = trainset.groupby('floor')['price_doc'].aggregate(np.median).reset_index()
 
-sns.jointplot(x="kitch_sq", y="price_doc", data=filtered,
-              color="g", size=8, s=10)
+plt.figure(figsize=(12,8))
+sns.barplot(x="floor", y="price_doc", data=floor_medianprice)
+plt.xticks(rotation='vertical')
+plt.ylabel('Median price')
 ```
 
-</details>
+![alt text](images/floor_median.png "median price per floor")
 
-![alt text](images/kitch_sq_filtered.png "kitch_sq without outlier")
+It's a bit hard to see, but there is a gradual growth in price. You can see small increases at 0 and 18. The data after 25 is probably distorted by few very high priced apartments.
 
-Most kitchens in the set aren't larger than 20 square meters.
+### max_floor
+
+_max_floor: number of floors in the building_
+
+```
+plt.figure(figsize=(12,8))
+sns.countplot(x="max_floor", data=trainset)
+plt.xticks(rotation='vertical')
+```
+
+![alt text](images/max_floor.png "max_floor")
+
+The most frequent amount of floors are all over the place, so we can't really draw any conclusions from this. Let's again look at median prices:
+
+```
+max_floor_medianprice = trainset.groupby('max_floor')['price_doc'].aggregate(np.median).reset_index()
+
+plt.figure(figsize=(12,8))
+sns.barplot(x="max_floor", y="price_doc", data=max_floor_medianprice)
+plt.xticks(rotation='vertical')
+plt.ylabel('Median price')
+```
+
+![alt text](images/max_floor_median.png "median price per max_floor")
+
+There seems to be some growth in price when you have higher buildings, but this isn't certain.
 
 ### build_year
 
@@ -210,6 +219,84 @@ sns.jointplot(x="build_year", y="price_doc", data=filtered,
 
 Most buildings in the set are built after 1950, and more expensive buildings appear more frequently after 2000.
 
+### state
+
+_state: apartment condition_
+
+I'm not sure what kind of scores they use for this, so first I printed the unique results, which resulted in this:
+
+```
+[  1.   2.   3.   4.  33.  nan]
+```
+
+It seems to be some sort of ranking from 1-4, but I don't know why the 33 is there (probably an outlier, as you can see in the next graph).
+
+![alt text](images/state.png "state")
+
+Most houses/apartments are in 1-3, with a lot less in 4 and almost no in 33 (which is probably a mistake anyway).
+
+![alt text](images/build_year.png "median price per state")
+
+Here you can see the median price per state. The price actually gets higher when the rating gets higher, so combined with the least amount of houses in state 4, it is probably the highest score, and 1 is the lowest.
+
+### kitch_sq
+
+_kitch_sq: kitchen area_
+
+<details>
+<summary>Code and filtering</summary>
+
+
+```
+plt.figure()
+plt.plot(trainset['kitch_sq'], trainset['price_doc'], "o",
+         color="g", ms=5)
+plt.show()
+```
+
+![alt text](images/kitch_sq_all.png "kitch_sq, full data")
+
+Get a close-up of the rest of the data points:
+
+```
+# Get close-up of data
+filtered = trainset[trainset['kitch_sq'] < 500]
+
+sns.jointplot(x="kitch_sq", y="price_doc", data=filtered,
+              color="g", size=8, s=10)
+```
+
+</details>
+
+![alt text](images/kitch_sq_filtered.png "kitch_sq without outlier")
+
+Most kitchens in the set aren't larger than 20 square meters.
+
+### num_room
+
+_num_room: number of living rooms_
+
+```
+plt.figure()
+sns.countplot(x="num_room", data=trainset)
+```
+
+![alt text](images/num_room.png "num_room")
+
+2 and 1 living rooms are most frequent, followed by 3. All other values are much lower. Let's take a look at the median price per num_room:
+
+```
+num_room_medianprice = trainset.groupby('num_room')['price_doc'].aggregate(np.median).reset_index()
+
+plt.figure()
+sns.barplot(x="num_room", y="price_doc", data=num_room_medianprice)
+plt.ylabel('Median price')
+```
+
+![alt text](images/num_room_median.png "median price per num_room")
+
+As you can see, the median price rises further and further until the highest amount at 9, after which it falls.
+
 ## Timestamps
 
 Let's take a look at the timestamps.
@@ -218,14 +305,14 @@ Let's take a look at the timestamps.
 #%% Preparing data
 
 trainset['year'] = trainset['timestamp'].apply(lambda x: x[:4])
-trainset['monthyear'] = trainset['timestamp'].apply(lambda x: x[5:7] + "-" + x[:4])
+trainset['year-month'] = trainset['timestamp'].apply(lambda x: x[:4] + "-" + x[5:7])
 
 #%% Counting the amount of entries by timestamp
 plt.figure()
 sns.countplot(x="year", data=trainset)
 
 plt.figure(figsize=(12,8))
-sns.countplot(x="monthyear", data=trainset)
+sns.countplot(x="year-month", data=trainset)
 plt.xticks(rotation='vertical')
 ```
 
@@ -240,11 +327,14 @@ Nothing very remarkable about these images: a lot of the data comes from 2014, b
 ```
 #%% Timestamps with median price
 
-medianprice = trainset.groupby('yearmonth')['price_doc'].aggregate(np.median).reset_index().sort("yearmonth")
+medianprice = trainset.groupby('year-month')['price_doc'].aggregate(np.median).reset_index().sort_values("year-month")
 
 plt.figure(figsize=(12,8))
-sns.barplot(x="yearmonth", y="price_doc", data=medianprice)
+sns.barplot(x="year-month", y="price_doc", data=medianprice)
 plt.xticks(rotation='vertical')
+plt.ylabel('Median price')
 ```
 
 ![alt text](images/timestamp-medianprice.png "median price per year-month")
+
+You can see a slight increase over time.
