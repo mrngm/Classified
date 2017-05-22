@@ -1,0 +1,79 @@
+-----------------------
+Notities
+-----------------------
+
+-----------------------
+Algemeen
+-----------------------
+- Huidige stavaza
+	- Data exploration van de dataset
+	- "Gezamenlijke" preprocessing
+	- Individueel werk in perken en meer gezamenlijk werken
+	- Statistiek
+
+- Missing data invullen
+	- Niet meteen verwijderen!
+	- Patroon in de features?
+
+----------------
+Volgende stappen
+-----------------
+- Eerste activiteiten uitvoeren
+- Preprocessing activiteiten uitvoeren
+- Methodes selecteren
+ 
+
+----------------
+Deadline
+----------------
+Flashtalk
+- 1 June
+
+
+- Volgende afspraak
+Datum: Dinsdag 16 Mei 
+Tijd:  13:30
+
+- Voorbespreking
+Tijd: 13:00
+
+Presentatie feedback
+- Onderbouwing van de algorithmes!
+- Geschiktheid!
+- Stappen in het volgende onderzoek beter uitbouwen
+- Onderbouwing van stappen!
+------------------
+Coach
+------------------
+Organisatorische/Ondersteuning
+
+--------------------
+Rolverdeling
+--------------------
+Jordi 	- 	Coordinator|Communicator|Leader
+Roel 	-	Coordinator
+
+-------------------
+Taakverdeling
+------------------
+Team - Data exploratie
+Gerdriaan - Github Repository klaarmaken voor 2de competitie
+
+-----------------
+Feedback
+-----------------
+Github stappenplan
+- Duidelijke comments voor wat je uploadt
+- Versiebeheer
+- Framework
+- Modulair Pipeline script 
+- Iedereen zijn eigen branch
+
+Meer gebruik van lilo5
+
+Synchroniseren Python beheer
+-------------------
+Contacteren
+-------------------
+Jacopo Acquirelli = Deep Learning
+Gido Schoenmacker = Overall methode
