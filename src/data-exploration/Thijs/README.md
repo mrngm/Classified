@@ -235,7 +235,7 @@ It seems to be some sort of ranking from 1-4, but I don't know why the 33 is the
 
 Most houses/apartments are in 1-3, with a lot less in 4 and almost no in 33 (which is probably a mistake anyway).
 
-![alt text](images/build_year.png "median price per state")
+![alt text](images/state_median.png "median price per state")
 
 Here you can see the median price per state. The price actually gets higher when the rating gets higher, so combined with the least amount of houses in state 4, it is probably the highest score, and 1 is the lowest.
 
