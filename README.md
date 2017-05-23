@@ -5,6 +5,46 @@
     * Hierin staan wat concepten van Git uitgelegd. Mocht je vragen hierover
       hebben, laat maar weten.
 
+## Installatie xgboost
+
+```
+$ source init.sh        # zorg ervoor dat Anaconda wordt gebruikt
+$ git clone --recursive https://github.com/dmlc/xgboost
+$ cd xgboost/
+$ git checkout v0.60
+$ git submodule init
+$ git submodule update
+### If you're running Windows, make sure mingw32-make and g++ are in your PATH
+### e.g.
+### $ which mingw32-make
+### <expected output: the location of mingw32-make>
+### $ alias make='mingw32-make'
+### $ which g++
+### <expected output: the location of g++>
+### If running `make -j4` after that doesn't immediately work, make sure
+### that dmlc-core/ and rabit/ are non-empty, otherwise run `git submodule init`
+### and `git submodule update` again. After that:
+### $ cd dmlc-core
+### $ make -j4
+### $ cd ../rabit/
+### $ make lib/librabit_empty.a -j4
+### $ cd ../
+### $ cp make/mingw64.mk config.mk
+$ make -j20
+$ cd python-package
+$ python -V
+Python 2.7.13 :: Anaconda 4.3.1 (64-bit)
+$ python setup.py install
+$ conda install libgcc
+$ ipython
+In [1]: import xgboost
+[bla]: DeprecationWarning: [bla]
+
+In [2]:
+```
+
+[Instructie voor bouwen van XGboost onder Windows](https://www.ibm.com/developerworks/community/blogs/jfp/entry/Installing_XGBoost_For_Anaconda_on_Windows?lang=en)
+
 ## Committen e.d.
 
 Er zijn meerdere manieren om dingen aan deze repository toe te voegen. De ene
