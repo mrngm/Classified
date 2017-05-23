@@ -14,6 +14,22 @@ $ cd xgboost/
 $ git checkout v0.60
 $ git submodule init
 $ git submodule update
+### If you're running Windows, make sure mingw32-make and g++ are in your PATH
+### e.g.
+### $ which mingw32-make
+### <expected output: the location of mingw32-make>
+### $ alias make='mingw32-make'
+### $ which g++
+### <expected output: the location of g++>
+### If running `make -j4` after that doesn't immediately work, make sure
+### that dmlc-core/ and rabit/ are non-empty, otherwise run `git submodule init`
+### and `git submodule update` again. After that:
+### $ cd dmlc-core
+### $ make -j4
+### $ cd ../rabit/
+### $ make lib/librabit_empty.a -j4
+### $ cd ../
+### $ cp make/mingw64.mk config.mk
 $ make -j20
 $ cd python-package
 $ python -V
@@ -26,6 +42,8 @@ In [1]: import xgboost
 
 In [2]:
 ```
+
+[Instructie voor bouwen van XGboost onder Windows](https://www.ibm.com/developerworks/community/blogs/jfp/entry/Installing_XGBoost_For_Anaconda_on_Windows?lang=en)
 
 ## Committen e.d.
 
