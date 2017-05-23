@@ -5,6 +5,28 @@
     * Hierin staan wat concepten van Git uitgelegd. Mocht je vragen hierover
       hebben, laat maar weten.
 
+## Installatie xgboost
+
+```
+$ source init.sh        # zorg ervoor dat Anaconda wordt gebruikt
+$ git clone --recursive https://github.com/dmlc/xgboost
+$ cd xgboost/
+$ git checkout v0.60
+$ git submodule init
+$ git submodule update
+$ make -j20
+$ cd python-package
+$ python -V
+Python 2.7.13 :: Anaconda 4.3.1 (64-bit)
+$ python setup.py install
+$ conda install libgcc
+$ ipython
+In [1]: import xgboost
+[bla]: DeprecationWarning: [bla]
+
+In [2]:
+```
+
 ## Committen e.d.
 
 Er zijn meerdere manieren om dingen aan deze repository toe te voegen. De ene
