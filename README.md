@@ -71,6 +71,8 @@ voor wat visuele hints.
     * Heb je veel dingen gedaan? Splits dan je werk op in meerdere commits. Op
       de commandline kan dat met `git add -p`. Je kan dan per stukje code (of
       tekst, of ...) bepalen of het in de commit terecht moet komen.
+    * Bestanden verplaatsen kan met `git mv bron doel`, bijvoorbeeld: `git mv
+      "Notities 23 Mei - Voorbespreking.txt" Notities/`
 5. *Push* je commits naar Github
     * `git push origin branchnaam`, bijvoorbeeld: `git push origin gerdriaan-scripts`
     * `origin` is de naam waaronder Github bekend staat in je lokale kopie
