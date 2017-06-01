@@ -20,7 +20,7 @@ test_raw = pd.read_csv('../data/test.csv')
 
 all_cols = list(train_raw.columns.values)
 
-train_prices = train_raw['price_doc']
+train_prices = train_raw['price_doc'].to_frame()
 
 test_ids = test_raw['id']
 
