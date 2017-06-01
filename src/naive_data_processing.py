@@ -22,6 +22,8 @@ all_cols = list(train_raw.columns.values)
 
 train_prices = train_raw['price_doc']
 
+test_ids = test_raw['id']
+
 non_num_cols = ['product_type', 'sub_area', 'thermal_power_plant_raion', 'incineration_raion', 'oil_chemistry_raion','radiation_raion','railroad_terminal_raion', 'big_market_raion','nuclear_reactor_raion', 'detention_facility_raion', 'water_1line','big_road1_1line','railroad_1line','ecology']
 redundant_cols = ['culture_objects_top_25', 'id', 'timestamp', 'price_doc']
 
@@ -44,7 +46,7 @@ for col in non_num_cols:
 
 imp= Imputer(missing_values = "NaN", strategy = 'median')
 train_no_nan = pd.DataFrame(imp.fit_transform(train),columns=train.columns.values)
-test_no_nan = pd.DataFrame(imp.transform(test),columns=test.columns.values)
+test_no_nan = pd.DataFrame(imp.transform(test),columns=test.columns.values, index=test_ids)
 
 train_no_nan.to_csv('../data/one-hot_median_filled_train.csv')
 test_no_nan.to_csv('../data/one-hot_median_filled_test.csv')
