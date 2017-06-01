@@ -29,6 +29,7 @@ testset     = pd.read_csv(testfile)
 X_train     = np.array(trainset)[:,1:]
 Y_train     = np.array(priceset)[:,1:]
 X_test      = np.array(testset)[:,1:]
+indexes     = testset.iloc[:,0]
 
 #%% Model
 
@@ -46,7 +47,7 @@ fit = model.fit(X_train, Y_train, epochs=15)
 pred = model.predict(X_test)
 
 #%% Save file
-sub = pd.DataFrame(pred, columns=['price_doc'])
+sub = pd.DataFrame(pred, index=indexes, columns=['price_doc'])
 sub.index.names = ['id']
 
 sub_file = 'DL_sub.csv'
