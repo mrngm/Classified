@@ -14,10 +14,12 @@ from math import sqrt
 from math import log
 #%%
 
-df_train = pd.read_csv("D:/School/School/Master/Jaar_1/Machine Learning in Practice/2nd Competition/Data/train.csv", parse_dates=['timestamp'])
-df_test = pd.read_csv("D:/School/School/Master/Jaar_1/Machine Learning in Practice/2nd Competition/Data/test.csv", parse_dates=['timestamp'])
-#df_macro = pd.read_csv("D:/School/School/Master/Jaar_1/Machine Learning in Practice/2nd Competition/Data/macro.csv", parse_dates=['timestamp'], usecols=['timestamp'] + macro_cols)
-df_macro = pd.read_csv("D:/School/School/Master/Jaar_1/Machine Learning in Practice/2nd Competition/Data/macro.csv", parse_dates=['timestamp'])
+DATADIR = "../data/"
+
+df_train = pd.read_csv(DATADIR + "train.csv", parse_dates=['timestamp'])
+df_test = pd.read_csv(DATADIR + "test.csv", parse_dates=['timestamp'])
+#df_macro = pd.read_csv(DATADIR + "macro.csv", parse_dates=['timestamp'], usecols=['timestamp'] + macro_cols)
+df_macro = pd.read_csv(DATADIR + "macro.csv", parse_dates=['timestamp'])
 
 df_train.head()
 #%%
@@ -116,5 +118,5 @@ df_sub = pd.DataFrame({'id': id_test, 'price_doc': y_pred})
 df_sub.head()
 
 #%%
-df_sub.to_csv('sub.csv', index=False)
+df_sub.to_csv(DATADIR + 'sub.csv', index=False)
 
