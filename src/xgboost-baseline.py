@@ -26,10 +26,16 @@ from sklearn import model_selection, preprocessing
 import xgboost as xgb
 import datetime
 
+# Declare paths
+data_folder = "../data/"
+macro_loc = data_folder + "macro.csv"
+train_loc = data_folder + "train.csv"
+test_loc = data_folder + "test.csv"
+
 # Read data
-macro = pd.read_csv('D:/School/School/Master/Jaar_1/Machine Learning in Practice/2nd Competition/Data/macro.csv')
-train = pd.read_csv('D:/School/School/Master/Jaar_1/Machine Learning in Practice/2nd Competition/Data/train.csv')
-test = pd.read_csv('D:/School/School/Master/Jaar_1/Machine Learning in Practice/2nd Competition/Data/test.csv')
+macro = pd.read_csv(macro_loc)
+train = pd.read_csv(train_loc)
+test = pd.read_csv(test_loc)
 
 # Macro data monthly medians
 macro["timestamp"] = pd.to_datetime(macro["timestamp"])
@@ -129,9 +135,10 @@ macro_mean
 
 
 #load files
-train = pd.read_csv('D:/School/School/Master/Jaar_1/Machine Learning in Practice/2nd Competition/Data/train.csv', parse_dates=['timestamp'])
-test = pd.read_csv('D:/School/School/Master/Jaar_1/Machine Learning in Practice/2nd Competition/Data/test.csv', parse_dates=['timestamp'])
-macro = pd.read_csv('D:/School/School/Master/Jaar_1/Machine Learning in Practice/2nd Competition/Data/macro.csv', parse_dates=['timestamp'])
+macro = pd.read_csv(macro_loc, parse_dates=['timestamp'])
+train = pd.read_csv(train_loc, parse_dates=['timestamp'])
+test = pd.read_csv(test_loc, parse_dates=['timestamp'])
+
 id_test = test.id
 
 #clean data
@@ -300,9 +307,9 @@ np.exp( jason_model_output.price_doc.apply(np.log).mean() )
 
 # Reynaldo
 
+train = pd.read_csv(train_loc)
+test = pd.read_csv(test_loc)
 
-train = pd.read_csv('D:/School/School/Master/Jaar_1/Machine Learning in Practice/2nd Competition/Data/train.csv')
-test = pd.read_csv('D:/School/School/Master/Jaar_1/Machine Learning in Practice/2nd Competition/Data/test.csv')
 id_test = test.id
 
 y_train = train["price_doc"]
@@ -349,9 +356,10 @@ np.exp( reynaldo_model_output.price_doc.apply(np.log).mean() )
 
 
 # Any results you write to the current directory are saved as output.
-df_train = pd.read_csv("D:/School/School/Master/Jaar_1/Machine Learning in Practice/2nd Competition/Data/train.csv", parse_dates=['timestamp'])
-df_test = pd.read_csv("D:/School/School/Master/Jaar_1/Machine Learning in Practice/2nd Competition/Data/test.csv", parse_dates=['timestamp'])
-df_macro = pd.read_csv("D:/School/School/Master/Jaar_1/Machine Learning in Practice/2nd Competition/Data/macro.csv", parse_dates=['timestamp'])
+
+df_train = pd.read_csv(train_loc, parse_dates=['timestamp'])
+df_test = pd.read_csv(test_loc, parse_dates=['timestamp'])
+df_macro = pd.read_csv(macro_loc, parse_dates=['timestamp'])
 
 df_train.drop(df_train[df_train["life_sq"] > 7000].index, inplace=True)
 
