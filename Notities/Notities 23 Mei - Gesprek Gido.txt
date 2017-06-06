@@ -1,0 +1,80 @@
+-----------------------
+Notities
+-----------------------
+
+-----------------------
+Algemeen
+-----------------------
+- Laatste stappen data exploration
+- Knelpunten opgelost
+	- Bouwjaren
+	- Missen Sub-areas
+	- Handelen missing data
+
+Baseline
+- 0.31615~
+
+- Median prices icm transacties
+- Beginwoningen
+- Leeftijd ivm district
+- Heatmap regio's / onderwerpen
+
+- Data exploratie
+	- Resultaten
+	- Hypotheses
+	- Kennis die daar voor nodig is
+----------------
+Volgende stappen
+-----------------
+- Missing data invullen
+	- Methode
+- Preprocessing uitvoeren
+- Begin maken aan de pipeline
+- Kijken naar methodes
+- Feature selection
+
+- Naive methoden loslaten
+- Welke features zijn belangrijk, in geval van verandering in Test dataset
+- Locaties van huizen gaan bepalen op basis van stations en andere topografische gebouwen
+	- Prijzen van appartementen?
+- Trend huizenmarkt
+- Lokaal testen, zsm pipeline
+----------------
+Deadline
+----------------
+Flashtalk
+- 1 June
+------------------
+Coach
+------------------
+Organisatorische/Ondersteuning
+
+--------------------
+Rolverdeling
+--------------------
+Jordi 	- 	Coordinator|Communicator|Leader
+Roel 	-	Coordinator
+
+-------------------
+Taakverdeling
+------------------
+Main Taken
+- Preprocessing
+	- Invullen missing data
+	- Kwaliteit van de data verbeteren
+- Feature selection/Classifiers
+	- Methodes op los laten
+	- Feature importance
+	- Ensemble methode (Invididueel)
+
+Team - 
+Jordi - Preprocessing
+Roel - Preprocessing
+Thijs - Classificaties
+Gerdriaan - Classificaties
+Jeffrey - Ensemble
+-------------------
+Contacteren
+-------------------
+Jacopo Acquirelli = Deep Learning
+Gido Schoenmacker = Overall methode
