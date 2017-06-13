@@ -77,3 +77,17 @@ time = datetime.datetime.now().strftime("%A, %d %B %Y %I%M%p")
 temp = pd.DataFrame({'id': ids, 'price_doc': y_ba})
 temp.head()
 temp.to_csv('../output/Bag_' + time + '.csv', index=False)
+
+# Extra Trees Regressor
+print('..Extra Trees Regressor with n=10..')
+rng = np.random.RandomState(1)
+ex = ExtraTreesRegressor(n_estimators=10, max_features="auto", random_state=rng)
+ex.fit(X_train, y_train)
+y_ex = ex.predict(X_test)
+print y_ex.shape
+
+#construct a sample submission for ensembling, per xgb-baseline2
+time = datetime.datetime.now().strftime("%A, %d %B %Y %I%M%p")
+temp = pd.DataFrame({'id': ids, 'price_doc': y_ex})
+temp.head()
+temp.to_csv('../output/extraTrees_' + time + '.csv', index=False)
