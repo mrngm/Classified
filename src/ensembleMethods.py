@@ -36,3 +36,16 @@ time = datetime.datetime.now().strftime("%A, %d %B %Y %I%M%p")
 temp = pd.DataFrame({'id': ids, 'price_doc': y_rf})
 temp.head()
 temp.to_csv('../output/RF_' + time + '.csv', index=False)
+
+# Gradient Boosting Regressor 
+print('..Gradient Boosting ..')
+gb = GradientBoostingRegressor(n_estimators=500, max_depth=4, min_samples_split=2, learning_rate=0.01)
+gb.fit(X_train, y_train)
+y_gb = clf.predict(X_test)
+print y_gb.shape
+
+#construct a sample submission for ensembling, per xgb-baseline2
+time = datetime.datetime.now().strftime("%A, %d %B %Y %I%M%p")
+temp = pd.DataFrame({'id': ids, 'price_doc': y_gb})
+temp.head()
+temp.to_csv('../output/GB_' + time + '.csv', index=False)
