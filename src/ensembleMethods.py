@@ -63,3 +63,17 @@ time = datetime.datetime.now().strftime("%A, %d %B %Y %I%M%p")
 temp = pd.DataFrame({'id': ids, 'price_doc': y_ad})
 temp.head()
 temp.to_csv('../output/ADA_' + time + '.csv', index=False)
+
+# Bagging Regressor 
+print('..Bagging regressor with 300 estimators..')
+rng = np.random.RandomState(1)
+ba = BaggingRegressor(n_estimators=300, random_state=rng)
+ba.fit(X_train, y_train)
+y_ba = ba.predict(X_test)
+print y_ba.shape
+
+#construct a sample submission for ensembling, per xgb-baseline2
+time = datetime.datetime.now().strftime("%A, %d %B %Y %I%M%p")
+temp = pd.DataFrame({'id': ids, 'price_doc': y_ba})
+temp.head()
+temp.to_csv('../output/Bag_' + time + '.csv', index=False)
