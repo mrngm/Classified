@@ -9,6 +9,7 @@ Created on Mon May 29 15:38:02 2017
 
 import pandas as pd
 import numpy as np
+import sys
 from keras.models import Sequential
 from keras.layers import Dense, Dropout
 from keras.layers.advanced_activations import PReLU
@@ -56,10 +57,14 @@ trainfile   = DATADIR + 'one-hot_median_filled_train.csv'
 trainprices = DATADIR + 'train_prices.csv'
 testfile    = DATADIR + 'one-hot_median_filled_test.csv'
 
-trainset    = pd.read_csv(trainfile)
-priceset    = pd.read_csv(trainprices)
-testset     = pd.read_csv(testfile)
-
+try:
+    trainset    = pd.read_csv(trainfile)
+    priceset    = pd.read_csv(trainprices)
+    testset     = pd.read_csv(testfile)
+except IOError:
+    print ("Please run 'naive_data_processing.py' first before running keras-test.py")
+    sys.exit(1)
+    
 X_train_full    = np.array(trainset)[:,1:]
 labels          = np.array(priceset)[:,1:]
 X_test_full     = np.array(testset)[:,1:]
