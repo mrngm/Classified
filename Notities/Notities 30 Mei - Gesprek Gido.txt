@@ -1,0 +1,66 @@
+-----------------------
+Notities
+-----------------------
+
+-----------------------
+Algemeen
+-----------------------
+- Afronding preprocessing
+
+Databases
+
+Presentaties
+
+
+----------------
+Volgende stappen
+-----------------
+- Begin maken aan de pipeline
+- Kijken naar methodes
+- Feature selection
+- Naive methoden loslaten
+- Median prices icm transacties
+- Beginwoningen
+- Leeftijd ivm district
+- Heatmap regio's / onderwerpen
+
+- Uitbreiding van data
+----------------
+Deadline
+----------------
+Flashtalk
+- 1 June
+------------------
+Coach
+------------------
+Organisatorische/Ondersteuning
+
+--------------------
+Rolverdeling
+--------------------
+Jordi 	- 	Coordinator|Communicator|Leader
+Roel 	-	Coordinator
+
+-------------------
+Taakverdeling
+------------------
+Main Taken
+- Preprocessing
+	- Invullen missing data
+	- Kwaliteit van de data verbeteren
+- Feature selection/Classifiers
+	- Methodes op los laten
+	- Feature importance
+	- Ensemble methode (Invididueel)
+
+Team - 
+Jordi - Preprocessing
+Roel - Preprocessing
+Thijs - Classificaties
+Gerdriaan - Classificaties
+Jeffrey - Ensemble
+-------------------
+Contacteren
+-------------------
+Jacopo Acquirelli = Deep Learning
+Gido Schoenmacker = Overall methode

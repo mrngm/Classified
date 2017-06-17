@@ -1,0 +1,109 @@
+-----------------------
+Notities
+-----------------------
+
+-----------------------
+Algemeen
+-----------------------
+- Classificaties
+- Restricted Boltzman Machine
+- Begin maken aan het verslag
+- Feature selection*
+
+Classificaties
+LinearRegression
+Geen Tijd - 0.540641
+Voor 2015 - 0.544261
+Na 2015   - 0.496892
+Cleanup   - 0.514774
+Voor 2015 - 0.517692
+Na 2015   - 0.524993
+
+KNNeighbors(6)
+Geen Tijd - 1.030266 
+Voor 2015 - 1.035226
+Na 2015   - 0.973970
+Cleanup   - 1.008984
+Voor 2015 - 1.021830
+Na 2015   - 0.931221
+
+DecisionTree
+Geen Tijd - 0.642473
+Voor 2015 - 0.672512
+Na 2015   - 0.584597
+Cleanup   - 0.647177
+Voor 2015 - 0.656325
+Na 2015   - 0.595099
+
+RandomForest
+Geen Tijd - 0.789106
+Voor 2015 - 0.813209
+Na 2015   - 0.771711
+Cleanup   - 0.799887
+Voor 2015 - 0.813864
+Na 2015   - 0.752389
+
+GradientBoosting Regressor
+Geen Tijd - 0.789106
+Voor 2015 - 0.508662
+Na 2015   - 0.413844
+Cleanup   - 0.492458
+Voor 2015 - 0.497762
+Na 2015   - 0.454981
+
+-----------------
+Volgende stappen
+-----------------
+- Verslag afronden
+- Parameters tunen (If possible)
+- Presentatie beginnen
+- Restricted Boltzman Machine
+- DeepLearning????
+- Crossvalidation framework?
+----------------
+Deadline
+----------------
+Voor 21 Juni Verslag AF!!
+20 Juni
+- Gido verslag opsturen
+
+21 Juni
+- Presentatie
+
+23 Juni
+- Interview
+
+------------------
+Coach
+------------------
+Organisatorische/Ondersteuning
+
+--------------------
+Rolverdeling
+--------------------
+Jordi 	- 	Coordinator|Communicator|Leader
+Roel 	-	Coordinator
+
+-------------------
+Taakverdeling
+------------------
+Main Taken
+- Preprocessing
+	- Invullen missing data
+	- Kwaliteit van de data verbeteren
+- Feature selection/Classifiers
+	- Methodes op los laten
+	- Feature importance
+	- Ensemble methode (Invididueel)
+
+Team - 
+Jordi - Preprocessing
+Roel - Preprocessing
+Thijs - Classificaties
+Gerdriaan - Classificaties
+Jeffrey - Ensemble
+-------------------
+Contacteren
+-------------------
+Jacopo Acquirelli = Deep Learning
+Gido Schoenmacker = Overall methode

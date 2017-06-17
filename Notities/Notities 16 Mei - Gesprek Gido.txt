@@ -1,0 +1,71 @@
+-----------------------
+Notities
+-----------------------
+
+-----------------------
+Algemeen
+-----------------------
+- Github repository doorgelezen?
+- Data exploration
+	- Interessante ontdekkingen
+- Trendontwikkelingen
+- Inventarisatie van de kolommen
+- Huisstructuur
+- Baseline creëeren
+
+Dataset - Knelpunten|Interessante punten
+- XGBoost Thijs regelen
+- Bouwjaren
+- Relatief weinig uitschieters
+- Missende sub-areas?
+- Verschillen training en test
+	- Missende instanties verschillen per dataset
+- Pas op voor overfitting
+----------------
+Volgende stappen
+-----------------
+- Missing data invullen, methode
+- Data exploration
+- Eerste activiteiten uitvoeren
+- Preprocessing activiteiten uitvoeren
+- Methodes selecteren
+- Baseline creëeren
+- Inventarisatie van de kolommen
+----------------
+Deadline
+----------------
+Flashtalk
+- 1 June
+
+- Volgende afspraak
+Datum: Dinsdag 23 Mei 
+Tijd:  13:30
+
+- Volgende afspraak
+Datum: Dinsdag 30 Mei 
+Tijd:  13:30
+Focus: Flashtalk
+
+- Voorbespreking
+Tijd: 13:00
+
+------------------
+Coach
+------------------
+Organisatorische/Ondersteuning
+
+--------------------
+Rolverdeling
+--------------------
+Jordi 	- 	Coordinator|Communicator|Leader
+Roel 	-	Coordinator
+
+-------------------
+Taakverdeling
+------------------
+Team - Data exploratie
+-------------------
+Contacteren
+-------------------
+Jacopo Acquirelli = Deep Learning
+Gido Schoenmacker = Overall methode

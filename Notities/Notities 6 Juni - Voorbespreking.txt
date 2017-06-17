@@ -1,0 +1,62 @@
+-----------------------
+Notities
+-----------------------
+
+-----------------------
+Algemeen
+-----------------------
+- Classificaties
+- Restricted Boltzman Machine
+- Begin maken aan het verslag
+- Feature selection*
+
+-----------------
+Volgende stappen
+-----------------
+- Begin maken aan het verslag
+- Classificaties verder uit testen (Naive methods loslaten)
+- Classificaties indelen in prijscategoriëen, check effects
+- Restricted Boltzman Machine
+----------------
+Deadline
+----------------
+29 Juni
+- Presentatie
+
+23 Juni
+- Report
+
+------------------
+Coach
+------------------
+Organisatorische/Ondersteuning
+
+--------------------
+Rolverdeling
+--------------------
+Jordi 	- 	Coordinator|Communicator|Leader
+Roel 	-	Coordinator
+
+-------------------
+Taakverdeling
+------------------
+Main Taken
+- Preprocessing
+	- Invullen missing data
+	- Kwaliteit van de data verbeteren
+- Feature selection/Classifiers
+	- Methodes op los laten
+	- Feature importance
+	- Ensemble methode (Invididueel)
+
+Team - 
+Jordi - Preprocessing
+Roel - Preprocessing
+Thijs - Classificaties
+Gerdriaan - Classificaties
+Jeffrey - Ensemble
+-------------------
+Contacteren
+-------------------
+Jacopo Acquirelli = Deep Learning
+Gido Schoenmacker = Overall methode
