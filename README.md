@@ -45,12 +45,25 @@ We have two classifiers that were tested, but in the end not used. They can be
 found in `src/` and run through:
 
 ```
-$ python keras-test.py          # we used Keras==2.0.4
+$ time python keras-test.py     # we used Keras==2.0.4
+                                # init.sh places a correct keras.json in your
+                                # home folder, and reset.sh restores the backup
+[..]
+submission saved to ../submission/DL_sub.csv
+
+real    16m37.138s
+user    292m41.788s
+sys     7m47.812s
 ```
 
 and
 
 
 ```
-$ python sgdclassifier.py
+$ time python sgdclassifier.py
+[..]
+
+real    2m5.607s
+user    2m8.776s
+sys     0m0.812s
 ```
