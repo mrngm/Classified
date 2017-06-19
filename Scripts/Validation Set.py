@@ -34,11 +34,11 @@ train_subset_loc = data_folder_loc + "train_subset.csv"
 validation_loc = data_folder_loc + "validation.csv"
 val_prices_loc = data_folder_loc + "val_prices.csv"
 #%%
-train = pd.read_csv('D:/School/School/Master/Jaar_1/Machine Learning in Practice/2nd Competition/Data/Validatieset/train_2014.csv', parse_dates=['timestamp'])
-x_test = pd.read_csv('D:/School/School/Master/Jaar_1/Machine Learning in Practice/2nd Competition/Data/Validatieset/test_2015.csv', parse_dates=['timestamp'])
+train = pd.read_csv('D:/School/School/Master/Jaar_1/Machine Learning in Practice/2nd Competition/Data/train.csv', parse_dates=['timestamp'])
 y_test = pd.read_csv('D:/School/School/Master/Jaar_1/Machine Learning in Practice/2nd Competition/Data/Validatieset/val_prices.csv', usecols=['5813453'])
 
-x_test = x_test.ix[1:]
+target = train['price_doc']
+train = train.drop('price_doc', 1)
 
 train = train.assign(
     date_year = lambda d: d['timestamp'].dt.year,
@@ -51,19 +51,10 @@ train = train.assign(
     date_weekday = lambda d: d['timestamp'].dt.weekday,
 )
 
-x_test = x_test.assign(
-    date_year = lambda d: d['timestamp'].dt.year,
-    date_month = lambda d: d['timestamp'].dt.month,
-    date_week = lambda d: d['timestamp'].dt.week,
-    date_day = lambda d: d['timestamp'].dt.day,
-    date_hour = lambda d: d['timestamp'].dt.hour,
-    date_minute = lambda d: d['timestamp'].dt.minute,
-    date_second = lambda d: d['timestamp'].dt.second,
-    date_weekday = lambda d: d['timestamp'].dt.weekday,
-)
-
 train = train.drop('timestamp', 1)
-x_test = x_test.drop('timestamp', 1)
+
+
+y_test=y_test.values
 #%%
 #clean data
 bad_index = train[train.life_sq > train.full_sq].index
@@ -127,19 +118,12 @@ for c in train.columns:
         lbl.fit(list(train[c].values)) 
         train[c] = lbl.transform(list(train[c].values))
 
-for c in x_test.columns:
-    if x_test[c].dtype == 'object':
-        lbl = preprocessing.LabelEncoder()
-        lbl.fit(list(x_test[c].values)) 
-        x_test[c] = lbl.transform(list(x_test[c].values))
-        
 #Split on instances before(<) and in(>=) 2015
 imp= Imputer(missing_values = "NaN", strategy = 'median')
 train = pd.DataFrame(imp.fit_transform(train),columns=train.columns.values)
-x_test = pd.DataFrame(imp.fit_transform(x_test),columns=x_test.columns.values)
 
 #%%
-
+X_train, X_test, y_train, y_test = train_test_split(train, target, test_size=0.4, random_state=0)
 #%%
 # Create linear regression object
 linear = linear_model.LinearRegression()
