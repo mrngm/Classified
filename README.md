@@ -30,7 +30,7 @@ pipeline_.
 
 ### Pre-processing
 
-1. Get the dataset from the link above
+1. Get the dataset from the link above and store it in `data/`
 2. In `data/` run `./unpack.sh` (alternatively, recursively unzip the dataset)
 3. In the base directory, run `source init.sh` if you have not yet done so
 4. In `src/` run `python naive_data_processing.py` 
