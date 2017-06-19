@@ -34,6 +34,7 @@ pipeline_.
 2. In `data/` run `./unpack.sh` (alternatively, recursively unzip the dataset)
 3. In the base directory, run `source init.sh` if you have not yet done so
 4. In `src/` run `python naive_data_processing.py` 
+5. In `src/` run `python construct_validation_set.py`
 
 ### Executing our pipeline
 
