@@ -51,9 +51,6 @@ val_prices.to_csv(val_prices_loc)
 
 y_test = val_prices
 
-target = train['price_doc']
-train = train.drop('price_doc', 1)
-
 train = train.assign(
     date_year = lambda d: d['timestamp'].dt.year,
     date_month = lambda d: d['timestamp'].dt.month,
@@ -67,10 +64,9 @@ train = train.assign(
 
 train = train.drop('timestamp', 1)
 
-
 y_test=y_test.values
 #%%
-#clean data
+#clean data, only when the data is raw can this section be used
 bad_index = train[train.life_sq > train.full_sq].index
 train.ix[bad_index, "life_sq"] = np.NaN
 equal_index = [601,1896,2791]
@@ -124,7 +120,11 @@ train.apartment_name=train.sub_area + train['metro_km_avto'].astype(str)
 train['room_size'] = train['life_sq'] / train['num_room'].astype(float)
 
 #%%
+#Let op het jaartal, meerdere runnings op 2015 zonder het opnieuw inladen kan errors veroorzaken
 train = train[train.date_year == 2015]
+#%%
+target = train['price_doc']
+train = train.drop('price_doc', 1)
 #%%
 for c in train.columns:
     if train[c].dtype == 'object':
@@ -149,15 +149,27 @@ print('Coefficient: \n', linear.coef_)
 print('Intercept: \n', linear.intercept_)
 #Predict Output
 score= linear.predict(X_test)
+
+def eval_rmsle(y_test,score):
+    return np.sqrt(np.mean(np.square(np.subtract(np.log(np.add(score,1)),np.log(np.add(y_test,1))))))
+
+RMSLE = np.sqrt(np.mean(np.square(np.subtract(np.log(np.add(score,1)),np.log(np.add(y_test,1))))))
+print 'Linear Regresion Cross Validation Score'
+print RMSLE
 #%%
 # Create tree object 
 model = tree.DecisionTreeClassifier(criterion='gini') # for classification, here you can change the algorithm as gini or entropy (information gain) by default it is gini  
 # model = tree.DecisionTreeRegressor() for regression
 # Train the model using the training sets and check score
+# Decision Tree heeft nog wel eens de neiging om 0 of negatieve huisprijzen te genereren
 model.fit(X_train, y_train)
 model.score(X_train, y_train)
 #Predict Output
 score= model.predict(X_test)
+
+RMSLE = np.sqrt(np.mean(np.square(np.subtract(np.log(np.add(score,1)),np.log(np.add(y_test,1))))))
+print 'Decision Tree Classifier Cross Validation Score'
+print RMSLE
 #%%
 # Create KNeighbors classifier object model 
 model = KNeighborsClassifier(n_neighbors=6) # default value for n_neighbors is 5
@@ -165,6 +177,10 @@ model = KNeighborsClassifier(n_neighbors=6) # default value for n_neighbors is 5
 model.fit(X_train, y_train)
 #Predict Output
 score= model.predict(X_test)
+
+RMSLE = np.sqrt(np.mean(np.square(np.subtract(np.log(np.add(score,1)),np.log(np.add(y_test,1))))))
+print 'K Neighbors Cross Validation Score'
+print RMSLE
 #%%
 # Create Random Forest object
 model= RandomForestClassifier()
@@ -172,13 +188,14 @@ model= RandomForestClassifier()
 model.fit(X_train, y_train)
 #Predict Output
 score= model.predict(X_test)
+
+RMSLE = np.sqrt(np.mean(np.square(np.subtract(np.log(np.add(score,1)),np.log(np.add(y_test,1))))))
+print 'Random Forest Classifier Cross Validation Score'
+print RMSLE
 #%%
 est = GradientBoostingRegressor(n_estimators=100, learning_rate=0.1,max_depth=1, random_state=0, loss='ls').fit(X_train, y_train)
 score = est.predict(X_test)
 
-#%%
-def eval_rmsle(y_test,score):
-    return np.sqrt(np.mean(np.square(np.subtract(np.log(np.add(score,1)),np.log(np.add(y_test,1))))))
-
 RMSLE = np.sqrt(np.mean(np.square(np.subtract(np.log(np.add(score,1)),np.log(np.add(y_test,1))))))
+print 'Gradient Boosting Regressor Cross Validation Score'
 print RMSLE
