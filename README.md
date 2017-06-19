@@ -38,3 +38,19 @@ pipeline_.
 ### Executing our pipeline
 
 In `/scratch/gmulder-pub/repo/src/` on lilo5, you can find our pipeline.
+
+### Executing different classifiers
+
+We have two classifiers that were tested, but in the end not used. They can be
+found in `src/` and run through:
+
+```
+$ python keras-test.py          # we used Keras==2.0.4
+```
+
+and
+
+
+```
+$ python sgdclassifier.py
+```
