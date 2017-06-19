@@ -34,7 +34,7 @@ train_subset_loc = data_folder_loc + "train_2014.csv"
 validation_loc = data_folder_loc + "test_2015.csv"
 val_prices_loc = data_folder_loc + "val_prices.csv"
 #%%
-train = pd.read_csv(train_loc)
+train = pd.read_csv(train_loc, parse_dates=['timestamp'])
 
 #Split on instances before(<) and in(>=) 2015
 train_subset = train[train['id'] < 27235]
