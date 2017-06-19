@@ -28,14 +28,28 @@ import xgboost as xgb
 import scipy as sp
 #%%
 # Declare paths
-data_folder_loc = "C:/Users/Gebruiker/data/"
+data_folder_loc = "../data/"
 train_loc = data_folder_loc + "train.csv"
-train_subset_loc = data_folder_loc + "train_subset.csv"
-validation_loc = data_folder_loc + "validation.csv"
+train_subset_loc = data_folder_loc + "train_2014.csv"
+validation_loc = data_folder_loc + "test_2015.csv"
 val_prices_loc = data_folder_loc + "val_prices.csv"
 #%%
-train = pd.read_csv('D:/School/School/Master/Jaar_1/Machine Learning in Practice/2nd Competition/Data/train.csv', parse_dates=['timestamp'])
-y_test = pd.read_csv('D:/School/School/Master/Jaar_1/Machine Learning in Practice/2nd Competition/Data/Validatieset/val_prices.csv', usecols=['5813453'])
+train = pd.read_csv(train_loc)
+
+#Split on instances before(<) and in(>=) 2015
+train_subset = train[train['id'] < 27235]
+train_2014 = train_subset[train_subset['id'] >13572]
+validation = train[train['id'] >= 27235]
+
+val_prices = validation['price_doc']
+
+validation = validation.drop('price_doc', 1)
+
+train_2014.to_csv(train_subset_loc)
+validation.to_csv(validation_loc)
+val_prices.to_csv(val_prices_loc)
+
+y_test = val_prices
 
 target = train['price_doc']
 train = train.drop('price_doc', 1)
