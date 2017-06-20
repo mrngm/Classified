@@ -42,10 +42,10 @@ In `/scratch/gmulder-pub/repo/src/` on lilo5, you can find our pipeline.
 
 ### Executing different classifiers
 
-We have two classifiers that were tested, but in the end not used. They can be
-found in `src/` and run through:
+We have a couple of classifiers that were tested, but in the end not used. They
+can be found in `src/` and run through:
 
-```
+*  ```
 $ time python keras-test.py     # we used Keras==2.0.4
                                 # init.sh places a correct keras.json in your
                                 # home folder, and reset.sh restores the backup
@@ -57,14 +57,30 @@ user    292m41.788s
 sys     7m47.812s
 ```
 
-and
-
-
-```
+* ```
 $ time python sgdclassifier.py
 [..]
 
 real    2m5.607s
 user    2m8.776s
 sys     0m0.812s
+```
+
+* ```
+$ time python Naive\ Classifiers.py
+[..]
+Linear Regresion Cross Validation Score
+0.524993062908
+Decision Tree Classifier Cross Validation Score
+0.594144853645
+K Neighbors Cross Validation Score
+0.931221351349
+Random Forest Classifier Cross Validation Score
+0.786182070125
+Gradient Boosting Regressor Cross Validation Score
+0.454981100656
+
+real    0m25.136s
+user    0m31.876s
+sys     0m6.984s
 ```

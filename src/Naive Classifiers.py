@@ -5,6 +5,11 @@ Created on Sun Jun 11 14:04:55 2017
 @author: Gebruiker
 """
 
+import warnings
+
+# Suppress invalid log value RuntimeWarning in the Linear Regression Classifier
+warnings.filterwarnings(action="ignore")
+
 import pandas as pd
 import numpy as np
 from sklearn import model_selection, preprocessing
@@ -26,6 +31,9 @@ from sklearn.ensemble import GradientBoostingRegressor
 from sklearn.ensemble import AdaBoostClassifier
 import xgboost as xgb
 import scipy as sp
+
+from evaluate_validation_predictions import eval_rmsle
+
 #%%
 # Declare paths
 data_folder_loc = "../data/"
@@ -137,20 +145,17 @@ X_train, X_test, y_train, y_test = train_test_split(train, target, test_size=0.4
 # Create linear regression object
 linear = linear_model.LinearRegression()
 # Train the model using the training sets and check score
-linear.fit(X_train, y_train)
-linear.score(X_train, y_train)
+lf = linear.fit(X_train, y_train)
+ls = linear.score(X_train, y_train)
 #Equation coefficient and Intercept
-print('Coefficient: \n', linear.coef_)
-print('Intercept: \n', linear.intercept_)
+#print('Coefficient: \n', linear.coef_)
+#print('Intercept: \n', linear.intercept_)
 #Predict Output
 score= linear.predict(X_test)
 
-def eval_rmsle(y_test,score):
-    return np.sqrt(np.mean(np.square(np.subtract(np.log(np.add(score,1)),np.log(np.add(y_test,1))))))
 
-RMSLE = np.sqrt(np.mean(np.square(np.subtract(np.log(np.add(score,1)),np.log(np.add(y_test,1))))))
 print 'Linear Regresion Cross Validation Score'
-print RMSLE
+print eval_rmsle(y_test, score)
 #%%
 # Create tree object 
 model = tree.DecisionTreeClassifier(criterion='gini') # for classification, here you can change the algorithm as gini or entropy (information gain) by default it is gini  
@@ -162,9 +167,8 @@ model.score(X_train, y_train)
 #Predict Output
 score= model.predict(X_test)
 
-RMSLE = np.sqrt(np.mean(np.square(np.subtract(np.log(np.add(score,1)),np.log(np.add(y_test,1))))))
 print 'Decision Tree Classifier Cross Validation Score'
-print RMSLE
+print eval_rmsle(y_test, score)
 #%%
 # Create KNeighbors classifier object model 
 model = KNeighborsClassifier(n_neighbors=6) # default value for n_neighbors is 5
@@ -173,9 +177,8 @@ model.fit(X_train, y_train)
 #Predict Output
 score= model.predict(X_test)
 
-RMSLE = np.sqrt(np.mean(np.square(np.subtract(np.log(np.add(score,1)),np.log(np.add(y_test,1))))))
 print 'K Neighbors Cross Validation Score'
-print RMSLE
+print eval_rmsle(y_test, score)
 #%%
 # Create Random Forest object
 model= RandomForestClassifier()
@@ -184,13 +187,11 @@ model.fit(X_train, y_train)
 #Predict Output
 score= model.predict(X_test)
 
-RMSLE = np.sqrt(np.mean(np.square(np.subtract(np.log(np.add(score,1)),np.log(np.add(y_test,1))))))
 print 'Random Forest Classifier Cross Validation Score'
-print RMSLE
+print eval_rmsle(y_test, score)
 #%%
 est = GradientBoostingRegressor(n_estimators=100, learning_rate=0.1,max_depth=1, random_state=0, loss='ls').fit(X_train, y_train)
 score = est.predict(X_test)
 
-RMSLE = np.sqrt(np.mean(np.square(np.subtract(np.log(np.add(score,1)),np.log(np.add(y_test,1))))))
 print 'Gradient Boosting Regressor Cross Validation Score'
-print RMSLE
+print eval_rmsle(y_test, score)
