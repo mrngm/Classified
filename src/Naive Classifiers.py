@@ -45,10 +45,6 @@ val_prices = validation['price_doc']
 
 validation = validation.drop('price_doc', 1)
 
-train_2014.to_csv(train_subset_loc)
-validation.to_csv(validation_loc)
-val_prices.to_csv(val_prices_loc)
-
 y_test = val_prices
 
 train = train.assign(
@@ -66,7 +62,6 @@ train = train.drop('timestamp', 1)
 
 y_test=y_test.values
 #%%
-#clean data, only when the data is raw can this section be used
 bad_index = train[train.life_sq > train.full_sq].index
 train.ix[bad_index, "life_sq"] = np.NaN
 equal_index = [601,1896,2791]
