@@ -24,19 +24,19 @@ findings and put forward some critical notes regarding the competition.
 
 \section{Problem description}
 Sberbank is the largest, state-owned bank in Russia. They are involved in
-financing and brokering deals in the Russian realty market. Therefore, they
+financing and brokering deals in the Russian realty market. They
 heavily rely on models to predict the value of property. Although the Russian
-house market remains fairly stable, Russia's economy relies on natural resources
+house market remains fairly stable, the economy relies on natural resources
 and is often subject to volatile changes. This makes predicting
-property value, and correcting for the economy, a non-trivial task.
+property value, whilst correcting for the economy, a non-trivial task.
 
 The goal of the Kaggle competition is to predict realty prices. The dataset
-contains training data of 30\,000 properties (e.g. apartments) from 2011 until
-2015. The test set is based on details from 2015 and 2016. Furthermore, a
+contains training data of 30\,000 properties from 2011 until
+2015. The test set is based on entries from 2015 and 2016. Furthermore, a
 highly-detailed macro-economic dataset is provided. The true prices of the test
 set are not known, and the public leaderboard is based on 35\% of the test data.
 
-The metric used for the leaderboard is the \emph{Root Mean Squared
+The metric used for evaluation on the Kaggle leaderboard is the \emph{Root Mean Squared
 Logarithmic Error} (\mbox{RMSLE}). We could submit our predictions five times
 per day.
 
@@ -46,7 +46,7 @@ We used Apache
 Spark\footnote{\url{https://rubigdata.github.io/bigdata-blog-2017-jeffluppes/2017/05/04/Give-me-a-spark/}}
 and Python plots to do some early data exploration and visualization. The
 JavaScript library ``Leaflet'' was used for plotting data on a map. This method
-provided a good feel of the data as well as early identification of outliers and
+provided a good early analysis of the data as well as early identification of outliers and
 missing data.
 
 \subsection{Exploratory analysis}
@@ -57,14 +57,14 @@ set containing all entries before 2015, and a validation set consisting of all
 entries in 2015. We used internal validation to preliminarily test various
 methods. These methods include Linear Regression, Random Forests, AdaBoost, kNN,
 XGBoost, Deep Learning and Stochastic Gradient Descent. These methods are easy
-to use, readily available, and have been proven to work decently.
+to use, readily available, and have been proven to work decently in this domain.
 
 It quickly became clear that eXtreme Gradient Boosting, or XGBoost, outperformed
 all other methods. XGBoost outperforms other methods, most likely, by its
 inherent ensemble property and by being able to robustly handle different
 categories of data. The boosting of weak learners might emphasize the variables
 that are useful for prediction, while it de-emphasizes variables that indicate
-fraud.
+fraud, thus not modelling unpredictable, fraud-based, outliers.
 
 There was little correlation between internal validation and validation done by
 the Kaggle submission platform. It is likely that this is caused by the
@@ -74,7 +74,7 @@ discrepancies in the time-price trend correction, which causes an offset in the
 evaluation error. Various forms of validation, including K-fold Cross
 Validation, provided no improvement, greatly decreasing the usefulness of
 validation. The dataset was far from complete, and many entries were missing
-data. It was particularly viable to improve the performance by focusing on
+values for variables. It was particularly viable to improve the performance by focusing on
 pre-processing.
 
 \subsection{Imputing data}
@@ -164,29 +164,26 @@ The performance of many classic regression methods were poor. The high
 complexity and sparsity of the dataset were particularly difficult for these
 models, as there are many patterns not identified by linear methods. Still, we
 thought these methods could be included in the ensemble, but intermediate
-results were not affirming any potential in this approach.
+results were not promosing.
 
-The best method was an XGBoost ensemble based on a published kernel by Kaggle
-user and econometrist Andy
+The best method was an XGBoost ensemble based on a published kernel by econometrist Andy
 Harless\footnote{\url{https://www.kaggle.com/aharless/latest-iteration-in-this-silly-game}},
 which included work from other Kaggle contributors. This model was improved
 upon, and outperformed the original kernel which, on its own, quickly saw wide
 adaption within the community.
 
-Sadly, the Keras approach (see `Deep Learning' in table~\ref{tbl:xval}), a
+The Keras approach (see `Deep Learning' in table~\ref{tbl:xval}), a
 10-layer deep neural network could not compete with the success of XGBoost
 implementations
 
-In this competition, Kaggle kernels were used with good success, unlike our
-experience in the previous competition. This was very useful as starting point
+In this competition, Kaggle kernels were used with good success. This was very useful as starting point
 and inspiration for our own approach(es). We were keeping a close eye on what
 the community was coming up with. Some of our code was also published on Kaggle
 in the form of kernels.
 
 As we explained earlier, the in-house evaluation method based on the training
 data proved to have no correlation with success on the leaderboard. This was the
-experience of other Kaggle users as well, as we could tell from a lot of
-disgruntled posts on the forum.
+experience of other Kaggle users as well.
 
 At the moment of writing (20 June 2017) the highest score achieved was 0.31038
 with (currently) the rank of 150/3222. This places us in the top 5 percent
@@ -197,7 +194,7 @@ the competition would end today, we would be awarded silver.
 \section{Criticism}
 The competition is not without flaws. The test set was very different (both in
 balance, and quality) from the training set. This made the evaluation of
-candidate submissions hard to do. Without a proper method of model validation,
+candidate submissions non-trivial. Without a proper method of model validation,
 we were left in the dark. A lot of data was missing and fraud was suspected in a
 significant amount of
 objects\footnote{\url{https://www.kaggle.com/c/sberbank-russian-housing-market/discussion/32608}}.
@@ -235,7 +232,7 @@ delivery\footnote{See our Github repository at
 Thijs and Jeffrey made and presented the final presentation.
 
 \subsection*{Previous competition}
-Flashback of the first competition. Pre-processing was done by Jordi and Gerdriaan. The XGBoost implementation was made by Jeffrey and Jordi. Roel made the classification pipeline and worked on the Random Forests implementation. Thijs focused on Deep Learning. Jeffrey wrote the report with input from the group. Gerdriaan worked on the code delivery and installed the project on the lilo servers. The first flash talk was done by Roel and the final presentation was made and presented by Gerdriaan and Jordi.
+Flashback of the first competition. Pre-processing was done by Jordi and Gerdriaan. The XGBoost implementation was made by Jeffrey and Jordi. Roel made the classification and validation pipeline and worked on Random Forests. Thijs focused on Deep Learning. Jeffrey wrote the report with input from the group. Gerdriaan worked on the code delivery and installed the project on the lilo servers. The first flash talk was done by Roel and the final presentation was made and presented by Gerdriaan and Jordi.
 
 \clearpage
 
