@@ -38,7 +38,17 @@ pipeline_.
 
 ### Executing our pipeline
 
-In `/scratch/gmulder-pub/repo/src/` on lilo5, you can find our pipeline.
+In `/scratch/gmulder-pub/repo/src/` on lilo5, you can find our pipeline. You
+can run it through:
+
+```
+$ time python xgboost-reweighted.py
+[..]
+
+real    4m36.191s
+user    27m21.308s
+sys     67m9.252s
+```
 
 ### Executing different classifiers
 
